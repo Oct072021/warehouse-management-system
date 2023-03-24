@@ -3,8 +3,8 @@ const tokens = {
   admin: {
     token: 'admin-token'
   },
-  dataOperater: {
-    token: 'dataOperater-token'
+  dataOperator: {
+    token: 'dataOperator-token'
   },
   accountant: {
     token: 'accountant-token'
@@ -18,11 +18,11 @@ const users = {
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
-  'dataOperater-token': {
-    roles: ['dataOperater'],
+  'dataOperator-token': {
+    roles: ['dataOperator'],
     introduction: 'I am an data operater',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'DataOperater'
+    name: 'dataOperator'
   },
   'accountant-token': {
     roles: ['accountant'],

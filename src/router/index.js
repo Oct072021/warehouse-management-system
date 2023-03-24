@@ -101,7 +101,7 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://github.com/Oct072021',
+        path: 'https://github.com/Oct072021/warehouse-management-system',
         meta: { title: 'External Link', icon: 'link' }
       }
     ]
@@ -152,8 +152,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
-          roles: ['admin']
+          title: 'Role Permission'
         }
       }
     ]
@@ -169,7 +168,7 @@ export const asyncRoutes = [
     meta: {
       title: 'Record',
       icon: 'tab',
-      roles: ['admin', 'dataOperater']
+      roles: ['admin', 'dataOperator']
     },
     children: [
       {

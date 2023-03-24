@@ -12,7 +12,7 @@ const state = {
       stack: 'Uncaught(in promise) TypeError: Fail to fetch'
     },
     info: 'ERR_NETWORK',
-    url: 'https://github.com/Oct072021'
+    url: 'https://github.com/Oct072021/warehouse-management-system'
   }]
 }
 

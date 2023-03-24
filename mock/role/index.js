@@ -12,15 +12,15 @@ const roles = [
     routes: routes
   },
   {
-    key: 'editor',
-    name: 'editor',
-    description: 'Normal Editor. Can see all pages except permission page',
+    key: 'dataOperator',
+    name: 'dataOperator',
+    description: 'data operator. Can see all pages about data',
     routes: routes.filter(i => i.path !== '/permission')// just a mock
   },
   {
-    key: 'visitor',
-    name: 'visitor',
-    description: 'Just a visitor. Can only see the home page and the document page',
+    key: 'accountant',
+    name: 'accountant',
+    description: 'accountant. Can only see page about finance',
     routes: [{
       path: '',
       redirect: 'dashboard',

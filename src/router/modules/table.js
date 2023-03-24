@@ -10,7 +10,7 @@ const tableRouter = {
   meta: {
     title: 'Table',
     icon: 'table',
-    roles: ['admin', 'dataOperater']
+    roles: ['admin', 'dataOperator']
   },
   children: [
     {
