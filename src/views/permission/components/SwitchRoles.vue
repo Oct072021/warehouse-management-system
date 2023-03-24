@@ -5,8 +5,9 @@
     </div>
     Switch roles:
     <el-radio-group v-model="switchRoles">
-      <el-radio-button label="editor" />
       <el-radio-button label="admin" />
+      <el-radio-button label="dataOperater" />
+      <el-radio-button label="accountant" />
     </el-radio-group>
   </div>
 </template>

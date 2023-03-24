@@ -1,29 +1,55 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <el-input v-model="listQuery.title" placeholder="Title" style="width: 200px;" class="filter-item"
-        @keyup.enter.native="handleFilter" />
+      <el-input
+        v-model="listQuery.title"
+        placeholder="Title"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
       <el-select v-model="listQuery.type" placeholder="Type" clearable class="filter-item" style="width: 130px">
-        <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name + '(' + item.key + ')'"
-          :value="item.key" />
+        <el-option
+          v-for="item in calendarTypeOptions"
+          :key="item.key"
+          :label="item.display_name + '(' + item.key + ')'"
+          :value="item.key"
+        />
       </el-select>
       <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search"
-        @click="handleFilter">Search</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-        @click="handleCreate">Add</el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-        @click="handleDownload">Export</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+      <el-button
+        v-waves
+        :loading="downloadLoading"
+        class="filter-item"
+        type="primary"
+        icon="el-icon-download"
+        @click="handleDownload"
+      >Export</el-button>
     </div>
 
-    <el-table :key="tableKey" v-loading="listLoading" :data="list" border fit highlight-current-row style="width: 100%;"
-      @sort-change="sortChange">
-      <el-table-column label="#" prop="id" sortable="custom" align="center" width="80"
-        :class-name="getSortClass('id')"></el-table-column>
+    <el-table
+      :key="tableKey"
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%;"
+      @sort-change="sortChange"
+    >
+      <el-table-column
+        label="#"
+        prop="id"
+        sortable="custom"
+        align="center"
+        width="80"
+        :class-name="getSortClass('id')"
+      />
 
-      <el-table-column label="ItemID" prop="itemID" width="200px" align="center"></el-table-column>
+      <el-table-column label="ItemID" prop="itemID" width="200px" align="center" />
 
       <el-table-column label="Title" min-width="200px">
         <template slot-scope="{row}">
@@ -32,31 +58,45 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="Specs" width="110px" align="center" prop="specs"></el-table-column>
+      <el-table-column label="Specs" width="110px" align="center" prop="specs" />
 
-      <el-table-column label="Quantity" width="110px" align="center" prop="quantity"></el-table-column>
-      
-      <el-table-column label="Mass" width="80px" align="center" prop="mass"></el-table-column>
+      <el-table-column label="Quantity" width="110px" align="center" prop="quantity" />
+
+      <el-table-column label="Mass" width="80px" align="center" prop="mass" />
 
       <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
         <template slot-scope="{row, $index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
-          <el-button v-if="row.status != 'deleted'" size="mini" type="danger"
-            @click="handleDelete(row, $index)">Delete</el-button>
+          <el-button
+            v-if="row.status != 'deleted'"
+            size="mini"
+            type="danger"
+            @click="handleDelete(row, $index)"
+          >Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
 
-    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
+    />
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="110px"
-        style="width: 400px; margin-left:50px;">
+      <el-form
+        ref="dataForm"
+        :rules="rules"
+        :model="temp"
+        label-position="left"
+        label-width="110px"
+        style="width: 400px; margin-left:50px;"
+      >
         <el-form-item label="Repository" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name"
-              :value="item.key" />
+            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
           </el-select>
         </el-form-item>
         <el-form-item label="ItemID" prop="itemID">
@@ -192,9 +232,9 @@ export default {
         ],
         mass: [
           { required: true, message: 'mass is required', trigger: 'blur' }
-        ],
+        ]
       },
-      downloadLoading: false,
+      downloadLoading: false
     }
   },
   created() {
@@ -246,16 +286,8 @@ export default {
         timestamp: new Date(),
         title: '',
         status: 'published',
-        type: '',
+        type: ''
       }
-    },
-    handleCreate() {
-      this.resetTemp()
-      this.dialogStatus = 'create'
-      this.dialogFormVisible = true
-      this.$nextTick(() => {
-        this.$refs['dataForm'].clearValidate()
-      })
     },
     createData() {
       this.$refs['dataForm'].validate(valid => {
@@ -343,7 +375,7 @@ export default {
         })
       )
     },
-    getSortClass: function (key) {
+    getSortClass: function(key) {
       const sort = this.listQuery.sort
       return sort === `+${key}` ? 'ascending' : 'descending'
     }

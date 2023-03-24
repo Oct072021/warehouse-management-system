@@ -3,41 +3,41 @@ const Mock = require('mockjs')
 const outboundArr = []
 const inboundArr = []
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1000; i++) {
   outboundArr.push(Mock.mock({
     id: i + 1,
-    itemID: `XMZ-5UB0-106-1CC1-${i + 12}`,
+    itemID: `@guid()`,
     timestamp: "@date('2022/MM/dd')",
     client: '@first',
     specs: '@integer(1, 100)*@integer(1, 100)mm',
     title: '@csentence(2, 5)',
     'type|1': ['GZ', 'SH', 'BJ', 'SZ'],
     quantity: '@integer(0, 100)',
-    price: '@float(0, 100, 0, 2)',
+    price: '@float(800, 10000, 0, 2)',
     mass: '@float(10, 50, 0, 2)kg',
   }))
 }
 
-for (let i = 0; i < 100; i++) {
+for (let i = 0; i < 1000; i++) {
   const { quantity, price } = outboundArr[i]
   outboundArr[i].total = (quantity * price).toFixed(2)
 }
 
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 600; i++) {
   inboundArr.push(Mock.mock({
     id: i + 1,
-    itemID: `XMZ-5UB0-106-1CC1-${i + 12}`,
+    itemID: `@guid()`,
     timestamp: "@date('2022/MM/dd')",
     specs: '@integer(1, 100)*@integer(1, 100)mm',
     title: '@csentence(2, 5)',
     'type|1': ['GZ', 'SH', 'BJ', 'SZ'],
     quantity: '@integer(0, 100)',
-    price: '@float(0, 100, 0, 2)',
+    price: '@float(800, 10000, 0, 2)',
     mass: '@float(10, 50, 0, 2)kg',
   }))
 }
 
-for (let i = 0; i < 60; i++) {
+for (let i = 0; i < 600; i++) {
   const { quantity, price } = inboundArr[i]
   inboundArr[i].total = (quantity * price).toFixed(2)
 }

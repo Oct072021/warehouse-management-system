@@ -82,19 +82,6 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/guide',
-    component: Layout,
-    redirect: '/guide/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/guide/index'),
-        name: 'Guide',
-        meta: { title: 'Guide', icon: 'guide', noCache: true }
-      }
-    ]
-  },
-  {
     path: '/profile',
     component: Layout,
     redirect: '/profile/index',
@@ -107,6 +94,17 @@ export const constantRoutes = [
         meta: { title: 'Profile', icon: 'user', noCache: true }
       }
     ]
+  },
+
+  {
+    path: 'external-link',
+    component: Layout,
+    children: [
+      {
+        path: 'https://github.com/Oct072021',
+        meta: { title: 'External Link', icon: 'link' }
+      }
+    ]
   }
 ]
 
@@ -116,6 +114,19 @@ export const constantRoutes = [
  */
 export const asyncRoutes = [
   {
+    path: '/error-log',
+    component: Layout,
+    children: [
+      {
+        path: 'log',
+        component: () => import('@/views/error-log/index'),
+        name: 'ErrorLog',
+        meta: { title: 'Error Log', icon: 'bug', roles: ['admin'] }
+      }
+    ]
+  },
+
+  {
     path: '/permission',
     component: Layout,
     redirect: '/permission/page',
@@ -124,18 +135,9 @@ export const asyncRoutes = [
     meta: {
       title: 'Permission',
       icon: 'lock',
-      roles: ['admin', 'editor'] // you can set roles in root nav
+      roles: ['admin'] // you can set roles in root nav
     },
     children: [
-      {
-        path: 'page',
-        component: () => import('@/views/permission/page'),
-        name: 'PagePermission',
-        meta: {
-          title: 'Page Permission',
-          roles: ['admin'] // or you can only set roles in sub nav
-        }
-      },
       {
         path: 'directive',
         component: () => import('@/views/permission/directive'),
@@ -167,13 +169,14 @@ export const asyncRoutes = [
     meta: {
       title: 'Record',
       icon: 'tab',
+      roles: ['admin', 'dataOperater']
     },
     children: [
       {
         path: 'inbound',
         component: () => import('@/views/inbound/index'),
         name: 'inbound',
-        meta: { title: 'inbound', roles: ['admin'] }
+        meta: { title: 'inbound' }
       },
       {
         path: 'outbound',
@@ -189,7 +192,8 @@ export const asyncRoutes = [
     component: Layout,
     meta: {
       title: 'Financial',
-      icon: 'tab',
+      icon: 'money',
+      roles: ['accountant']
     },
     children: [
       {
@@ -197,36 +201,13 @@ export const asyncRoutes = [
         component: () => import('@/views/income/index'),
         name: 'income',
         meta: { title: 'income' }
+
       },
       {
         path: 'expend',
         component: () => import('@/views/expend/index'),
         name: 'expend',
         meta: { title: 'expend' }
-      }
-    ]
-  },
-
-  {
-    path: '/error-log',
-    component: Layout,
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/error-log/index'),
-        name: 'ErrorLog',
-        meta: { title: 'Error Log', icon: 'bug' }
-      }
-    ]
-  },
-
-  {
-    path: 'external-link',
-    component: Layout,
-    children: [
-      {
-        path: 'https://github.com/PanJiaChen/vue-element-admin',
-        meta: { title: 'External Link', icon: 'link' }
       }
     ]
   },

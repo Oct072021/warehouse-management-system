@@ -1,47 +1,33 @@
 <template>
-  <div v-if="errorLogs.length>0">
-    <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click.native="dialogTableVisible=true">
+  <div>
+    <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click.native="dialogErrVisible = true">
       <el-button style="padding: 8px 10px;" size="small" type="danger">
         <svg-icon icon-class="bug" />
       </el-button>
     </el-badge>
 
-    <el-dialog :visible.sync="dialogTableVisible" width="80%" append-to-body>
+    <el-dialog :visible.sync="dialogErrVisible" width="40%" append-to-body>
       <div slot="title">
-        <span style="padding-right: 10px;">Error Log</span>
-        <el-button size="mini" type="primary" icon="el-icon-delete" @click="clearAll">Clear All</el-button>
+        <span style="padding-right: 10px;">Error Report</span>
       </div>
-      <el-table :data="errorLogs" border>
-        <el-table-column label="Message">
-          <template slot-scope="{row}">
-            <div>
-              <span class="message-title">Msg:</span>
-              <el-tag type="danger">
-                {{ row.err.message }}
-              </el-tag>
-            </div>
-            <br>
-            <div>
-              <span class="message-title" style="padding-right: 10px;">Info: </span>
-              <el-tag type="warning">
-                {{ row.vm.$vnode.tag }} error in {{ row.info }}
-              </el-tag>
-            </div>
-            <br>
-            <div>
-              <span class="message-title" style="padding-right: 16px;">Url: </span>
-              <el-tag type="success">
-                {{ row.url }}
-              </el-tag>
-            </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Stack">
-          <template slot-scope="scope">
-            {{ scope.row.err.stack }}
-          </template>
-        </el-table-column>
-      </el-table>
+      <el-form :model="errorLog" label-position="left" label-width="110px" style="width: 400px; margin-left:50px;">
+        <el-form-item label="Message">
+          <el-input v-model="errorLog.err.message" />
+        </el-form-item>
+        <el-form-item label="Info">
+          <el-input v-model="errorLog.info" />
+        </el-form-item>
+        <el-form-item label="Url">
+          <el-input v-model="errorLog.url" />
+        </el-form-item>
+        <el-form-item label="Stack">
+          <el-input v-model="errorLog.err.stack" />
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogErrVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="submitERR">Submit</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -51,7 +37,15 @@ export default {
   name: 'ErrorLog',
   data() {
     return {
-      dialogTableVisible: false
+      dialogErrVisible: false,
+      errorLog: {
+        err: {
+          message: '',
+          stack: ''
+        },
+        info: '',
+        url: ''
+      }
     }
   },
   computed: {
@@ -61,8 +55,17 @@ export default {
   },
   methods: {
     clearAll() {
-      this.dialogTableVisible = false
       this.$store.dispatch('errorLog/clearErrorLog')
+    },
+    submitERR() {
+      this.$store.dispatch('errorLog/addErrorLog', this.errorLog)
+      this.$notify({
+        title: 'Success',
+        message: 'Add Successfully',
+        type: 'success',
+        duration: 2000
+      })
+      this.dialogErrVisible = false
     }
   }
 }

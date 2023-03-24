@@ -1,5 +1,19 @@
 const state = {
-  logs: []
+  logs: [{
+    err: {
+      message: 'Cannot read properties of undefined (reading "total")',
+      stack: 'TypeError:Cannot read properties of undifine(reading "total") at .........'
+    },
+    info: 'Operation Fail',
+    url: 'https://github.com'
+  }, {
+    err: {
+      message: 'Uncaught(in promise) TypeError: Fail to fetch',
+      stack: 'Uncaught(in promise) TypeError: Fail to fetch'
+    },
+    info: 'ERR_NETWORK',
+    url: 'https://github.com/Oct072021'
+  }]
 }
 
 const mutations = {

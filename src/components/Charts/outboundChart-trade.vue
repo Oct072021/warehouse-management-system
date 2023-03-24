@@ -31,13 +31,9 @@ export default {
     return {
       chart: null,
       GZ_Total: [],
-      GZ_Orders: null,
       SZ_Total: [],
-      SZ_Orders: null,
       BJ_Total: [],
-      BJ_Orders: null,
-      SH_Total: [],
-      SH_Orders: null,
+      SH_Total: []
     }
   },
   mounted() {
@@ -54,7 +50,7 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
-      const xData = (function () {
+      const xData = (function() {
         const data = []
         for (let i = 1; i < 13; i++) {
           data.push(i + 'month')
@@ -334,16 +330,12 @@ export default {
     async initData() {
       const GZ_res = await this.getTotal('GZ')
       this.GZ_Total = GZ_res.total
-      this.GZ_Orders = GZ_res.orders
       const SZ_res = await this.getTotal('SZ')
       this.SZ_Total = SZ_res.total
-      this.SZ_Orders = SZ_res.orders
       const BJ_res = await this.getTotal('BJ')
       this.BJ_Total = BJ_res.total
-      this.BJ_Orders = BJ_res.orders
       const SH_res = await this.getTotal('SH')
       this.SH_Total = SH_res.total
-      this.SH_Orders = SH_res.orders
     },
     async getTotal(type) {
       const res = await outboundTotal(type)

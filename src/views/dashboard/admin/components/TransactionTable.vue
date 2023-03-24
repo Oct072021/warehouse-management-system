@@ -1,19 +1,19 @@
 <template>
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
-    <el-table-column label="Order_No" min-width="200">
+    <el-table-column label="ItemID" min-width="200">
       <template slot-scope="scope">
-        {{ scope.row.order_no | orderNoFilter }}
+        {{ scope.row.itemID | orderNoFilter }}
       </template>
     </el-table-column>
-    <el-table-column label="Price" width="195" align="center">
+    <el-table-column label="Total" width="195" align="center">
       <template slot-scope="scope">
-        ¥{{ scope.row.price | toThousandFilter }}
+        ¥{{ scope.row.total | toThousandFilter }}
       </template>
     </el-table-column>
-    <el-table-column label="Status" width="100" align="center">
+    <el-table-column label="From" width="100" align="center">
       <template slot-scope="{row}">
-        <el-tag :type="row.status | statusFilter">
-          {{ row.status }}
+        <el-tag>
+          {{ row.type }}
         </el-tag>
       </template>
     </el-table-column>
@@ -21,17 +21,10 @@
 </template>
 
 <script>
-import { transactionList } from '@/api/remote-search'
+import { fetchList } from '@/api/inbound'
 
 export default {
   filters: {
-    statusFilter(status) {
-      const statusMap = {
-        success: 'success',
-        pending: 'danger'
-      }
-      return statusMap[status]
-    },
     orderNoFilter(str) {
       return str.substring(0, 30)
     }
@@ -46,8 +39,8 @@ export default {
   },
   methods: {
     fetchData() {
-      transactionList().then(response => {
-        this.list = response.data.items.slice(0, 8)
+      fetchList().then(response => {
+        this.list = response.data.items.slice(3, 11)
       })
     }
   }

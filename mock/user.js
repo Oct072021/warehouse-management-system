@@ -3,8 +3,11 @@ const tokens = {
   admin: {
     token: 'admin-token'
   },
-  editor: {
-    token: 'editor-token'
+  dataOperater: {
+    token: 'dataOperater-token'
+  },
+  accountant: {
+    token: 'accountant-token'
   }
 }
 
@@ -15,11 +18,17 @@ const users = {
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
     name: 'Super Admin'
   },
-  'editor-token': {
-    roles: ['editor'],
-    introduction: 'I am an editor',
+  'dataOperater-token': {
+    roles: ['dataOperater'],
+    introduction: 'I am an data operater',
     avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Normal Editor'
+    name: 'DataOperater'
+  },
+  'accountant-token': {
+    roles: ['accountant'],
+    introduction: 'I am an accountant',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    name: 'Accountant'
   }
 }
 

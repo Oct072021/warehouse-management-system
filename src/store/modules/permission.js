@@ -25,6 +25,7 @@ export function filterAsyncRoutes(routes, roles) {
     const tmp = { ...route }
     if (hasPermission(roles, tmp)) {
       if (tmp.children) {
+        // recursion
         tmp.children = filterAsyncRoutes(tmp.children, roles)
       }
       res.push(tmp)

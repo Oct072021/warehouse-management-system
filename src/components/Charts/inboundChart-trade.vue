@@ -31,13 +31,9 @@ export default {
     return {
       chart: null,
       GZ_Total: [],
-      GZ_Orders: null,
       SZ_Total: [],
-      SZ_Orders: null,
       BJ_Total: [],
-      BJ_Orders: null,
-      SH_Total: [],
-      SH_Orders: null,
+      SH_Total: []
     }
   },
   mounted() {
@@ -54,7 +50,7 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(document.getElementById(this.id))
-      const xData = (function () {
+      const xData = (function() {
         const data = []
         for (let i = 1; i < 13; i++) {
           data.push(i + 'month')
@@ -173,82 +169,6 @@ export default {
         series: [
           {
             name: 'GZ',
-            type: 'bar',
-            stack: 'total',
-            barMaxWidth: 35,
-            barGap: '10%',
-            itemStyle: {
-              normal: {
-                color: 'rgba(52,158,255)',
-                label: {
-                  show: true,
-                  textStyle: {
-                    color: '#fff'
-                  },
-                  position: 'insideTop',
-                  formatter(p) {
-                    return p.value > 0 ? p.value : ''
-                  }
-                }
-              }
-            },
-            data: this.GZ_Orders
-          }, {
-            name: 'SZ',
-            type: 'bar',
-            stack: 'total',
-            itemStyle: {
-              normal: {
-                color: 'rgba(252,230,48,1)',
-                barBorderRadius: 0,
-                label: {
-                  show: true,
-                  position: 'top',
-                  formatter(p) {
-                    return p.value > 0 ? p.value : ''
-                  }
-                }
-              }
-            },
-            data: this.SZ_Orders
-          }, {
-            name: 'BJ',
-            type: 'bar',
-            stack: 'total',
-            itemStyle: {
-              normal: {
-                color: 'rgba(20,251,46)',
-                barBorderRadius: 0,
-                label: {
-                  show: true,
-                  position: 'top',
-                  formatter(p) {
-                    return p.value > 0 ? p.value : ''
-                  }
-                }
-              }
-            },
-            data: this.BJ_Orders
-          }, {
-            name: 'SH',
-            type: 'bar',
-            stack: 'total',
-            itemStyle: {
-              normal: {
-                color: 'rgba(226,4,4)',
-                barBorderRadius: 0,
-                label: {
-                  show: true,
-                  position: 'top',
-                  formatter(p) {
-                    return p.value > 0 ? p.value : ''
-                  }
-                }
-              }
-            },
-            data: this.SH_Orders
-          }, {
-            name: 'GZ',
             type: 'line',
             stack: 'total',
             symbolSize: 10,
@@ -334,16 +254,12 @@ export default {
     async initData() {
       const GZ_res = await this.getTotal('GZ')
       this.GZ_Total = GZ_res.total
-      this.GZ_Orders = GZ_res.orders
       const SZ_res = await this.getTotal('SZ')
       this.SZ_Total = SZ_res.total
-      this.SZ_Orders = SZ_res.orders
       const BJ_res = await this.getTotal('BJ')
       this.BJ_Total = BJ_res.total
-      this.BJ_Orders = BJ_res.orders
       const SH_res = await this.getTotal('SH')
       this.SH_Total = SH_res.total
-      this.SH_Orders = SH_res.orders
     },
     async getTotal(type) {
       const res = await inboundTotal(type)

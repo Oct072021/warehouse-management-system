@@ -1,32 +1,65 @@
 <template>
-  <div class="errPage-container">
-    <ErrorA />
-    <ErrorB />
-    <h3>Please click the bug icon in the upper right corner</h3>
-    <aside>
-      Now the management system are basically the form of the spa, it enhances the user experience, but it also increases the possibility of page problems, a small negligence may lead to the entire page deadlock. Fortunately Vue provides a way to catch handling exceptions, where you can handle errors or report exceptions.
-      <a target="_blank" class="link-type" href="https://panjiachen.github.io/vue-element-admin-site/guide/advanced/error.html">
-        Document introduction
-      </a>
-    </aside>
-    <a href="#">
-      <img src="https://wpimg.wallstcn.com/360e4842-4db5-42d0-b078-f9a84a825546.gif">
-    </a>
+  <div>
+    <div slot="title">
+      <span style="padding:0 30px;">Error Log</span>
+      <el-button size="mini" type="primary" icon="el-icon-delete" @click="clearAll">Clear All</el-button>
+    </div>
+    <el-table :data="errorLogs" border empty-text="No Error">
+      <el-table-column label="Message">
+        <template slot-scope="{row}">
+          <div>
+            <span class="message-title">Msg:</span>
+            <el-tag type="danger">
+              {{ row.err.message }}
+            </el-tag>
+          </div>
+          <br>
+          <div>
+            <span class="message-title" style="padding-right: 10px;">Info: </span>
+            <el-tag type="warning">
+              {{ row.info }}
+            </el-tag>
+          </div>
+          <br>
+          <div>
+            <span class="message-title" style="padding-right: 16px;">Url: </span>
+            <el-tag type="success">
+              {{ row.url }}
+            </el-tag>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="Stack">
+        <template slot-scope="scope">
+          {{ scope.row.err.stack }}
+        </template>
+      </el-table-column>
+    </el-table>
   </div>
 </template>
 
 <script>
-import ErrorA from './components/ErrorTestA'
-import ErrorB from './components/ErrorTestB'
-
 export default {
   name: 'ErrorLog',
-  components: { ErrorA, ErrorB }
+  computed: {
+    errorLogs() {
+      console.log('logs', this.$store.getters.errorLogs)
+      return this.$store.getters.errorLogs
+    }
+  },
+  methods: {
+    clearAll() {
+      this.$store.dispatch('errorLog/clearErrorLog')
+    }
+  }
 }
 </script>
 
 <style scoped>
-  .errPage-container {
-    padding: 30px;
-  }
+.message-title {
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  padding-right: 8px;
+}
 </style>
