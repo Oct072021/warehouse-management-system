@@ -78,7 +78,8 @@ export default {
     return {
       lineChartData: lineChartData.profit,
       profit: null,
-      orders: null
+      orders: null,
+      nowDate: new Date()
     }
   },
   created() {
@@ -95,8 +96,17 @@ export default {
       this.profit -= eval(total.join('+'))
       this.orders += eval(orders.join('+'))
       // Get Chart Data
-      lineChartData.profit.inbound = total.slice(3, 10)
-      lineChartData.orders.inbound = orders.slice(3, 10)
+      const nowMonth = this.nowDate.getMonth() + 1
+      if (nowMonth <= 3) {
+        lineChartData.profit.inbound = total.slice(0, 6)
+        lineChartData.orders.inbound = orders.slice(0, 6)
+      } else if (nowMonth >= 9) {
+        lineChartData.profit.inbound = total.slice(7, 13)
+        lineChartData.orders.inbound = orders.slice(7, 13)
+      } else {
+        lineChartData.profit.inbound = total.slice(nowMonth - 3, nowMonth + 3)
+        lineChartData.orders.inbound = orders.slice(nowMonth - 3, nowMonth + 3)
+      }
     },
     async getOutboundData() {
       const res = await outboundTotal()

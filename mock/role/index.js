@@ -4,6 +4,34 @@ const { asyncRoutes, constantRoutes } = require('./routes.js')
 
 const routes = deepClone([...constantRoutes, ...asyncRoutes])
 
+function hasPermission(roles, route) {
+  if (route.meta && route.meta.roles) {
+    return roles.some(role => route.meta.roles.includes(role))
+  } else {
+    return true
+  }
+}
+
+function filterAsyncRoutes(routes, roles) {
+  const res = []
+
+  routes.forEach(route => {
+    const tmp = { ...route }
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        // recursion
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+
+  return res
+}
+
+const data_operator_routes = filterAsyncRoutes(routes, ['dataOperator'])
+const accountant_routes = filterAsyncRoutes(routes, ['accountant'])
+
 const roles = [
   {
     key: 'admin',
@@ -15,23 +43,13 @@ const roles = [
     key: 'dataOperator',
     name: 'dataOperator',
     description: 'data operator. Can see all pages about data',
-    routes: routes.filter(i => i.path !== '/permission')// just a mock
+    routes: data_operator_routes
   },
   {
     key: 'accountant',
     name: 'accountant',
     description: 'accountant. Can only see page about finance',
-    routes: [{
-      path: '',
-      redirect: 'dashboard',
-      children: [
-        {
-          path: 'dashboard',
-          name: 'Dashboard',
-          meta: { title: 'dashboard', icon: 'dashboard' }
-        }
-      ]
-    }]
+    routes: accountant_routes
   }
 ]
 

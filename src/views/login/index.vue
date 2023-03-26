@@ -10,7 +10,7 @@
     >
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">Warehouse Management System Login Form</h3>
       </div>
 
       <el-form-item prop="username">
@@ -171,9 +171,10 @@ export default {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
+          // Vuex dispatches login method
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              console.log(this.redirect)
+              // return value => next page
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })

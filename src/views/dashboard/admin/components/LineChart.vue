@@ -33,7 +33,9 @@ export default {
   },
   data() {
     return {
-      chart: null
+      chart: null,
+      nowDate: new Date(),
+      monthArr: []
     }
   },
   watch: {
@@ -59,12 +61,39 @@ export default {
   methods: {
     initChart() {
       this.chart = echarts.init(this.$el, 'macarons')
+      this.getMonthArr()
       this.setOptions(this.chartData)
+    },
+    getMonthArr() {
+      const nowMonth = this.nowDate.getMonth() + 1
+      switch (nowMonth) {
+        case 1 | 2 | 3:
+          this.monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
+          break
+        case 9 | 10 | 11 | 12:
+          this.monthArr = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+          break
+        case 4:
+          this.monthArr = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
+          break
+        case 5:
+          this.monthArr = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
+          break
+        case 6:
+          this.monthArr = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
+          break
+        case 7:
+          this.monthArr = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
+          break
+        case 8:
+          this.monthArr = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov']
+          break
+      }
     },
     setOptions({ inbound, outbound } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+          data: this.monthArr,
           boundaryGap: false,
           axisTick: {
             show: false
