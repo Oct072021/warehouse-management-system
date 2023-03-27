@@ -40,14 +40,7 @@
       style="width: 100%;"
       @sort-change="sortChange"
     >
-      <el-table-column
-        label="#"
-        prop="id"
-        sortable="custom"
-        align="center"
-        width="80"
-        :class-name="getSortClass('id')"
-      />
+      <el-table-column label="#" prop="id" sortable="custom" align="center" width="80" :class-name="getSortClass('id')" />
 
       <el-table-column label="ItemID" prop="itemID" width="200px" align="center" />
 
@@ -71,7 +64,7 @@
             v-if="row.status != 'deleted'"
             size="mini"
             type="danger"
-            @click="handleDelete(row, $index)"
+            @click="handleDelete(row.id, $index)"
           >Delete</el-button>
         </template>
       </el-table-column>
@@ -100,7 +93,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="ItemID" prop="itemID">
-          <el-input v-model="temp.itemID" />
+          {{ temp.itemID }}
         </el-form-item>
         <el-form-item label="Title" prop="title">
           <el-input v-model="temp.title" />
@@ -140,9 +133,9 @@
 <script>
 import {
   fetchList,
-  fetchPv,
   createArticle,
-  updateArticle
+  updateArticle,
+  remove
 } from '@/api/outbound'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
@@ -257,13 +250,6 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: 'Success',
-        type: 'success'
-      })
-      row.status = status
-    },
     sortChange(data) {
       const { prop, order } = data
       if (prop === 'id') {
@@ -321,33 +307,46 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
           tempData.timestamp = +new Date(tempData.timestamp) // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 1512031311464
-          updateArticle(tempData).then(() => {
-            const index = this.list.findIndex(v => v.id === this.temp.id)
-            this.list.splice(index, 1, this.temp)
-            this.dialogFormVisible = false
-            this.$notify({
-              title: 'Success',
-              message: 'Update Successfully',
-              type: 'success',
-              duration: 2000
-            })
+          updateArticle(tempData).then(res => {
+            if (res.code === 20000) {
+              this.dialogFormVisible = false
+              this.$notify({
+                title: 'Success',
+                message: 'Update Successfully',
+                type: 'success',
+                duration: 2000
+              })
+              this.getList()
+            } else {
+              this.$notify({
+                title: 'Failed',
+                message: 'Update Failed',
+                type: 'error',
+                duration: 2000
+              })
+            }
           })
         }
       })
     },
-    handleDelete(row, index) {
-      this.$notify({
-        title: 'Success',
-        message: 'Delete Successfully',
-        type: 'success',
-        duration: 2000
-      })
-      this.list.splice(index, 1)
-    },
-    handleFetchPv(pv) {
-      fetchPv(pv).then(response => {
-        this.pvData = response.data.pvData
-        this.dialogPvVisible = true
+    handleDelete(id, index) {
+      remove(id).then(res => {
+        if (res.code === 20000) {
+          this.$notify({
+            title: 'Success',
+            message: 'Delete Successfully',
+            type: 'success',
+            duration: 2000
+          })
+          this.getList()
+        } else {
+          this.$notify({
+            title: 'Failed',
+            message: 'delete Failed',
+            type: 'error',
+            duration: 2000
+          })
+        }
       })
     },
     handleDownload() {

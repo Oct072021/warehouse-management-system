@@ -10,7 +10,7 @@ for (let i = 0; i < 1000; i++) {
     timestamp: "@date('2022/MM/dd')",
     client: '@first',
     specs: '@integer(1, 100)*@integer(1, 100)mm',
-    title: '@csentence(2, 5)',
+    title: `goods ${i} `,
     'type|1': ['GZ', 'SH', 'BJ', 'SZ'],
     quantity: '@integer(0, 100)',
     price: '@float(800, 10000, 0, 2)',
@@ -29,7 +29,7 @@ for (let i = 0; i < 600; i++) {
     itemID: `@guid()`,
     timestamp: "@date('2022/MM/dd')",
     specs: '@integer(1, 100)*@integer(1, 100)mm',
-    title: '@csentence(2, 5)',
+    title: `inbound goods ${i} `,
     'type|1': ['GZ', 'SH', 'BJ', 'SZ'],
     quantity: '@integer(0, 100)',
     price: '@float(800, 10000, 0, 2)',
@@ -47,16 +47,19 @@ const inboundModule = [{
   type: 'get',
   response: config => {
     const { itemID, type, title, page = 1, limit = 20, sort } = config.query
+    // simulate search
     let mockList = inboundArr.filter(item => {
       if (type && item.type !== type) return false
       if (title && item.title.indexOf(title) < 0) return false
       if (itemID && item.itemID.indexOf(itemID) < 0) return false
       return true
     })
+    // sort
     if (sort === '-id') {
       mockList = mockList.reverse()
     }
 
+    // Pagination
     const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
     return {
       code: 20000,
@@ -164,6 +167,7 @@ const inboundModule = [{
   type: 'post',
   response: config => {
     const index = inboundArr.findIndex(v => v.id === config.body.id)
+    console.log(index)
     inboundArr.splice(index, 1)
     return {
       code: 20000,
@@ -178,16 +182,18 @@ const outboundModule = [{
   type: 'get',
   response: config => {
     const { itemID, type, title, page = 1, limit = 20, sort } = config.query
+    // simulate search
     let mockList = outboundArr.filter(item => {
       if (type && item.type !== type) return false
       if (title && item.title.indexOf(title) < 0) return false
       if (itemID && item.itemID.indexOf(itemID) < 0) return false
       return true
     })
+    // sort
     if (sort === '-id') {
       mockList = mockList.reverse()
     }
-
+    // Pagination
     const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
     return {

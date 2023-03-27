@@ -105,6 +105,7 @@ const actions = {
   async changeRoles({ commit, dispatch }, role) {
     const token = role + '-token'
 
+    // reset token
     commit('SET_TOKEN', token)
     setToken(token)
 
