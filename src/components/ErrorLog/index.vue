@@ -58,6 +58,7 @@ export default {
       this.$store.dispatch('errorLog/clearErrorLog')
     },
     submitERR() {
+      // Vuex dispatches errorLog method
       this.$store.dispatch('errorLog/addErrorLog', this.errorLog)
       this.$notify({
         title: 'Success',

@@ -43,7 +43,6 @@ export default {
   name: 'ErrorLog',
   computed: {
     errorLogs() {
-      console.log('logs', this.$store.getters.errorLogs)
       return this.$store.getters.errorLogs
     }
   },

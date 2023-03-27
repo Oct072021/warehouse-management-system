@@ -115,8 +115,17 @@ export default {
       this.profit = eval(total.join('+'))
       this.orders = eval(orders.join('+'))
       // Get Chart Data
-      lineChartData.profit.outbound = total.slice(3, 10)
-      lineChartData.orders.outbound = orders.slice(3, 10)
+      const nowMonth = this.nowDate.getMonth() + 1
+      if (nowMonth <= 3) {
+        lineChartData.profit.outbound = total.slice(0, 6)
+        lineChartData.orders.outbound = orders.slice(0, 6)
+      } else if (nowMonth >= 9) {
+        lineChartData.profit.outbound = total.slice(7, 13)
+        lineChartData.orders.outbound = orders.slice(7, 13)
+      } else {
+        lineChartData.profit.outbound = total.slice(nowMonth - 3, nowMonth + 3)
+        lineChartData.orders.outbound = orders.slice(nowMonth - 3, nowMonth + 3)
+      }
     },
     getData() {
       // Control the execution order of async tasks
