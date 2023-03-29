@@ -8,8 +8,10 @@
       active-text="turnover"
       inactive-text="order quantity"
     />
-    <tradeChart v-if="value" height="100%" width="100%" />
-    <orderChart v-if="!value" height="100%" width="100%" />
+    <keep-alive>
+      <tradeChart v-if="value" height="100%" width="100%" />
+      <orderChart v-if="!value" height="100%" width="100%" />
+    </keep-alive>
   </div>
 </template>
 

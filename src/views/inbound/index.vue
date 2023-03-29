@@ -1,39 +1,73 @@
 <template>
   <div class="tab-container">
     <el-tag>mounted times : {{ createdTimes }}</el-tag>
-    <el-alert :closable="false" style="width:200px;display:inline-block;vertical-align: middle;margin-left:30px;"
-      title="Tab with keep-alive" type="success" />
+    <el-alert
+      :closable="false"
+      style="width:200px;display:inline-block;vertical-align: middle;margin-left:30px;"
+      title="Tab with keep-alive"
+      type="success"
+    />
     <div class="filter-container">
-      <el-input v-model="list.title" placeholder="Title" style="width: 200px;" class="filter-item"
-        @keyup.enter.native="handleFilter" />
-      <el-input v-model="list.itemID" placeholder="ItemID" style="width: 200px;" class="filter-item"
-        @keyup.enter.native="handleFilter" />
+      <el-input
+        v-model="list.title"
+        placeholder="Title"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
+      <el-input
+        v-model="list.itemID"
+        placeholder="ItemID"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
       <el-select v-model="list.sort" style="width: 140px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search"
-        @click="handleFilter">Search</el-button>
-      <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit"
-        @click="handleCreate">Add</el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-        @click="handleDownload">Export</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+      <el-button
+        class="filter-item"
+        style="margin-left: 10px;"
+        type="primary"
+        icon="el-icon-edit"
+        @click="handleCreate"
+      >Add</el-button>
+      <el-button
+        v-waves
+        :loading="downloadLoading"
+        class="filter-item"
+        type="primary"
+        icon="el-icon-download"
+        @click="handleDownload"
+      >Export</el-button>
     </div>
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
         <keep-alive>
-          <tab-pane v-if="activeName == item.key" :type="item.key" :searchList="list" @create="showCreatedTimes"
-            @handleUpdate="handleUpdate" />
+          <tab-pane
+            v-if="activeName == item.key"
+            :type="item.key"
+            :search-list="list"
+            @create="showCreatedTimes"
+            @handleUpdate="handleUpdate"
+          />
         </keep-alive>
       </el-tab-pane>
     </el-tabs>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="110px"
-        style="width: 400px; margin-left:50px;">
+      <el-form
+        ref="dataForm"
+        :rules="rules"
+        :model="temp"
+        label-position="left"
+        label-width="110px"
+        style="width: 400px; margin-left:50px;"
+      >
         <el-form-item label="Repository" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name"
-              :value="item.key" />
+            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
           </el-select>
         </el-form-item>
         <el-form-item label="ItemID" prop="itemID">
@@ -60,6 +94,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
+        <el-button type="success" style="float: left">Scan</el-button>
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
         <el-button type="primary" @click="dialogStatus === 'create' ? create() : update()">Confirm</el-button>
       </div>
@@ -84,10 +119,10 @@ const calendarTypeOptions = [
 ]
 
 // arr to obj, such as { CN : 'China', US : 'USA' }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+// const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
+//   acc[cur.key] = cur.display_name
+//   return acc
+// }, {})
 
 export default {
   name: 'Tab',
@@ -139,7 +174,7 @@ export default {
         ],
         mass: [
           { required: true, message: 'mass is required', trigger: 'blur' }
-        ],
+        ]
       },
       temp: {
         id: undefined,
@@ -156,7 +191,7 @@ export default {
       textMap: {
         update: 'Edit',
         create: 'Create'
-      },
+      }
     }
   },
   watch: {
@@ -214,7 +249,7 @@ export default {
         quantity: 0,
         price: 0,
         total: 0,
-        type: '',
+        type: ''
       }
     },
     handleCreate() {
@@ -230,7 +265,6 @@ export default {
         if (valid) {
           this.temp.total = this.temp.price * this.temp.quantity
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
           createArticle(this.temp).then(res => {
             if (res.code === 20000) {
               this.dialogFormVisible = false
@@ -248,7 +282,6 @@ export default {
       })
     },
     handleUpdate(row) {
-      console.log(row)
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.dialogStatus = 'update'
