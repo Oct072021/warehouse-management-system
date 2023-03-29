@@ -304,7 +304,7 @@ export default {
                 type: 'success',
                 duration: 2000
               })
-              // The TabPane component listens for the searchList, passing in a new list to cause the view to refresh
+              // The TabPane component listens for the searchList, passing in a new list to refresh the view
               this.list = { page: 1, limit: 10, title: undefined, itemID: undefined, sort: '+id' }
             }
           })

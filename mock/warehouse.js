@@ -167,7 +167,6 @@ const inboundModule = [{
   type: 'post',
   response: config => {
     const index = inboundArr.findIndex(v => v.id === config.body.id)
-    console.log(index)
     inboundArr.splice(index, 1)
     return {
       code: 20000,
