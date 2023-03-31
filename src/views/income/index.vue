@@ -1,25 +1,44 @@
 <template>
   <div class="tab-container">
     <el-tag>mounted times : {{ createdTimes }}</el-tag>
-    <el-alert :closable="false" style="width:200px;display:inline-block;vertical-align: middle;margin-left:30px;"
-      title="Tab with keep-alive" type="success" />
+    <el-alert
+      :closable="false"
+      style="width:200px;display:inline-block;vertical-align: middle;margin-left:30px;"
+      title="Tab with keep-alive"
+      type="success"
+    />
     <div class="filter-container">
-      <el-input v-model="list.title" placeholder="Title" style="width: 200px;" class="filter-item"
-        @keyup.enter.native="handleFilter" />
-      <el-input v-model="list.itemID" placeholder="ItemID" style="width: 200px;" class="filter-item"
-        @keyup.enter.native="handleFilter" />
+      <el-input
+        v-model="list.title"
+        placeholder="Title"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
+      <el-input
+        v-model="list.itemID"
+        placeholder="ItemID"
+        style="width: 200px;"
+        class="filter-item"
+        @keyup.enter.native="handleFilter"
+      />
       <el-select v-model="list.sort" style="width: 140px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search"
-        @click="handleFilter">Search</el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download"
-        @click="handleDownload">Export</el-button>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+      <el-button
+        v-waves
+        :loading="downloadLoading"
+        class="filter-item"
+        type="primary"
+        icon="el-icon-download"
+        @click="handleDownload"
+      >Export</el-button>
     </div>
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
         <keep-alive>
-          <tab-pane v-if="activeName == item.key" :type="item.key" :searchList="list" @create="showCreatedTimes" />
+          <tab-pane v-if="activeName == item.key" :type="item.key" :search-list="list" @create="showCreatedTimes" />
         </keep-alive>
       </el-tab-pane>
     </el-tabs>
@@ -28,13 +47,12 @@
 
 <script>
 import {
-  createArticle,
-  updateArticle
+  createArticle
 } from '@/api/outbound'
 import TabPane from './components/TabPane'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
-
+import { throttle } from '@/utils/common'
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -44,10 +62,10 @@ const calendarTypeOptions = [
 ]
 
 // arr to obj, such as { CN : 'China', US : 'USA' }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
+// const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
+//   acc[cur.key] = cur.display_name
+//   return acc
+// }, {})
 
 export default {
   name: 'Tab',
@@ -101,7 +119,7 @@ export default {
         ],
         mass: [
           { required: true, message: 'mass is required', trigger: 'blur' }
-        ],
+        ]
       },
       temp: {
         id: undefined,
@@ -119,7 +137,7 @@ export default {
       textMap: {
         update: 'Edit',
         create: 'Create'
-      },
+      }
     }
   },
   watch: {
@@ -139,7 +157,7 @@ export default {
       this.createdTimes = this.createdTimes + 1
       this.allData = data
     },
-    handleDownload() {
+    handleDownload: throttle(function() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['itemID', 'title', 'data', 'quantity', 'price', 'total']
@@ -152,7 +170,7 @@ export default {
         })
         this.downloadLoading = false
       })
-    },
+    }, 5 * 1000),
     formatJson(filterVal) {
       return this.allData.map(v =>
         filterVal.map(j => {
@@ -177,7 +195,7 @@ export default {
         quantity: 0,
         price: 0,
         total: 0,
-        type: '',
+        type: ''
       }
     },
     create() {
@@ -203,7 +221,7 @@ export default {
           })
         }
       })
-    },
+    }
   }
 }
 </script>

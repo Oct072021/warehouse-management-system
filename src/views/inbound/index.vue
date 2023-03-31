@@ -110,6 +110,7 @@ import {
 import TabPane from './components/TabPane'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
+import { throttle } from '@/utils/common'
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -211,7 +212,7 @@ export default {
       this.createdTimes = this.createdTimes + 1
       this.allData = data
     },
-    handleDownload() {
+    handleDownload: throttle(function() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['itemID', 'title', 'data', 'specs', 'quantity', 'price', 'total', 'mass']
@@ -224,7 +225,7 @@ export default {
         })
         this.downloadLoading = false
       })
-    },
+    }, 5 * 1000),
     formatJson(filterVal) {
       return this.allData.map(v =>
         filterVal.map(j => {

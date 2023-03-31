@@ -139,6 +139,7 @@ import {
 } from '@/api/outbound'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
+import { debounce, throttle } from '@/utils/common'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 const calendarTypeOptions = [
@@ -159,14 +160,6 @@ export default {
   components: { Pagination },
   directives: { waves },
   filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    },
     typeFilter(type) {
       return calendarTypeKeyValue[type]
     }
@@ -228,6 +221,14 @@ export default {
         ]
       },
       downloadLoading: false
+    }
+  },
+  watch: {
+    listQuery: {
+      handler: debounce(function() {
+        this.getList()
+      }, 2 * 1000),
+      deep: true
     }
   },
   created() {
@@ -349,7 +350,7 @@ export default {
         }
       })
     },
-    handleDownload() {
+    handleDownload: throttle(function() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
         const tHeader = ['itemID', 'title', 'specs', 'quantity', 'mass']
@@ -362,7 +363,7 @@ export default {
         })
         this.downloadLoading = false
       })
-    },
+    }, 5 * 1000),
     formatJson(filterVal) {
       return this.list.map(v =>
         filterVal.map(j => {

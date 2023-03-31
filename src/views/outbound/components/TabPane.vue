@@ -1,10 +1,9 @@
 <template>
   <div>
     <el-table :data="list" border fit highlight-current-row style="width: 100%" draggable>
-      <el-table-column v-loading="loading" align="center" label="#" width="50" element-loading-text="请给我点时间！"
-        prop="id"></el-table-column>
+      <el-table-column v-loading="loading" align="center" label="#" width="50" element-loading-text="请给我点时间！" prop="id" />
 
-      <el-table-column width="180px" label="itemID" prop="itemID"></el-table-column>
+      <el-table-column width="180px" label="itemID" prop="itemID" />
 
       <el-table-column min-width="180px" label="Title">
         <template slot-scope="{row}">
@@ -19,30 +18,38 @@
         </template>
       </el-table-column>
 
-      <el-table-column width="90" align="center" label="Client" prop="client"></el-table-column>
+      <el-table-column width="90" align="center" label="Client" prop="client" />
 
-      <el-table-column align="center" label="Specs" width="95" prop="specs"></el-table-column>
+      <el-table-column align="center" label="Specs" width="95" prop="specs" />
 
-      <el-table-column class-name="status-col" label="Quantity" prop='quantity' width="80"></el-table-column>
+      <el-table-column class-name="status-col" label="Quantity" prop="quantity" width="80" />
 
-      <el-table-column class-name="status-col" label="Price" prop='price' width="60"></el-table-column>
+      <el-table-column class-name="status-col" label="Price" prop="price" width="60" />
 
-      <el-table-column class-name="status-col" label="Total" prop='total' width="90"></el-table-column>
+      <el-table-column class-name="status-col" label="Total" prop="total" width="90" />
 
-      <el-table-column class-name="status-col" label="Mass" prop='mass' width="90"></el-table-column>
+      <el-table-column class-name="status-col" label="Mass" prop="mass" width="90" />
 
       <el-table-column label="Actions" align="center" width="170" class-name="small-padding fixed-width">
         <template slot-scope="{row, $index}">
           <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
-          <el-button v-if="row.status != 'deleted'" size="mini" type="danger"
-            @click="handleRemove(row, $index)">Delete</el-button>
+          <el-button
+            v-if="row.status != 'deleted'"
+            size="mini"
+            type="danger"
+            @click="handleRemove(row, $index)"
+          >Delete</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total > 0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit"
-      @pagination="getList" />
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.limit"
+      @pagination="getList"
+    />
   </div>
-
 </template>
 
 <script>
@@ -50,20 +57,11 @@ import {
   fetchList,
   remove
 } from '@/api/outbound'
+import { debounce } from '@/utils/common'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 export default {
   components: { Pagination },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
   props: {
     type: {
       type: String,
@@ -71,33 +69,35 @@ export default {
     },
     searchList: {
       type: Object,
-      default: {
-        page: 1,
-        limit: 10,
-        sort: '+id',
-        title: undefined,
-        itemID: undefined
+      default: () => {
+        return {
+          page: 1,
+          limit: 10,
+          sort: '+id',
+          title: undefined,
+          itemID: undefined
+        }
       }
     }
-  },
-  watch: {
-    searchList: {
-      handler: function (val) {
-        this.listQuery = { ...val, type: this.type }
-        this.getList()
-      },
-      deep: true
-    },
   },
   data() {
     return {
       list: null,
       listQuery: {
         ...this.searchList,
-        type: this.type,
+        type: this.type
       },
       loading: false,
-      total: 0,
+      total: 0
+    }
+  },
+  watch: {
+    searchList: {
+      handler: debounce(function(val) {
+        this.listQuery = { ...val, type: this.type }
+        this.getList()
+      }, 2 * 1000),
+      deep: true
     }
   },
   created() {
@@ -130,7 +130,7 @@ export default {
           this.getList()
         }
       })
-    },
+    }
   }
 }
 </script>
