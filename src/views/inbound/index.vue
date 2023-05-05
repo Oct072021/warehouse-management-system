@@ -266,6 +266,7 @@ export default {
         if (valid) {
           this.temp.total = this.temp.price * this.temp.quantity
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+          this.temp.timestamp = +new Date(this.temp.timestamp)
           createArticle(this.temp).then(res => {
             if (res.code === 20000) {
               this.dialogFormVisible = false

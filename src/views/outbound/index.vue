@@ -275,7 +275,6 @@ export default {
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
           this.temp.author = 'vue-element-admin'
           this.temp.timestamp = +new Date(this.temp.timestamp)
-          console.log(this.temp)
           createArticle(this.temp).then(res => {
             if (res.code === 20000) {
               this.dialogFormVisible = false
@@ -293,7 +292,6 @@ export default {
       })
     },
     handleUpdate(row) {
-      console.log(row)
       this.temp = Object.assign({}, row) // copy obj
       this.temp.timestamp = new Date(this.temp.timestamp)
       this.dialogStatus = 'update'

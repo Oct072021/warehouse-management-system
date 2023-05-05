@@ -44,7 +44,7 @@ export function remove(data) {
   return request({
     url: '/vue-element-admin/outbound/remove',
     method: 'post',
-    data: { id: data }
+    data
   })
 }
 

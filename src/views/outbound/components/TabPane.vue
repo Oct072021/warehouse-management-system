@@ -108,7 +108,6 @@ export default {
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
-        console.log(typeof this.list[0].timestamp)
         this.loading = false
         this.total = res.data.total
         this.$emit('create', res.data.allItems) // Return all data
@@ -118,7 +117,6 @@ export default {
       this.$emit('handleUpdate', row)
     },
     handleRemove(row, index) {
-      console.log(row)
       remove(row).then(res => {
         if (res.code === 20000) {
           this.$notify({
