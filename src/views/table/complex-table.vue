@@ -64,7 +64,7 @@
             v-if="row.status != 'deleted'"
             size="mini"
             type="danger"
-            @click="handleDelete(row.id, $index)"
+            @click="handleDelete(row, $index)"
           >Delete</el-button>
         </template>
       </el-table-column>
@@ -330,8 +330,8 @@ export default {
         }
       })
     },
-    handleDelete(id, index) {
-      remove(id).then(res => {
+    handleDelete(row, index) {
+      remove(row).then(res => {
         if (res.code === 20000) {
           this.$notify({
             title: 'Success',

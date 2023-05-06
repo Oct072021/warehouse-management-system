@@ -60,16 +60,6 @@ import Pagination from '@/components/Pagination' // secondary package based on e
 
 export default {
   components: { Pagination },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'info',
-        deleted: 'danger'
-      }
-      return statusMap[status]
-    }
-  },
   props: {
     type: {
       type: String,
@@ -103,7 +93,9 @@ export default {
     searchList: {
       handler: debounce(function(val) {
         this.listQuery = { ...val, type: this.type }
+        console.log(this.listQuery)
         this.getList()
+        this.$store.dispatch('alive/reset')
       }, 2 * 1000),
       deep: true
     }
@@ -116,10 +108,12 @@ export default {
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
+        console.log('getlist', this.list)
         this.loading = false
         this.total = res.data.total
         this.$emit('create', res.data.allItems) // return all data
       })
+      this.$forceUpdate()
     },
     handleUpdate(row) {
       this.$emit('handleUpdate', row)

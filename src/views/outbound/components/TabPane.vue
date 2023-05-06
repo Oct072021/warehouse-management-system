@@ -65,7 +65,7 @@ export default {
   props: {
     type: {
       type: String,
-      default: 'CN'
+      default: 'GZ'
     },
     searchList: {
       type: Object,

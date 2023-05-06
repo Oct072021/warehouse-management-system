@@ -44,10 +44,14 @@
     </div>
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-        <keep-alive>
+        <keep-alive :include="aliveArr">
           <tab-pane
             v-if="activeName == item.key"
+            :id="item.key"
+            :ref="item.key"
+            :key="item.key"
             :type="item.key"
+            :name="item.key"
             :search-list="list"
             @create="showCreatedTimes"
             @handleUpdate="handleUpdate"
@@ -119,12 +123,6 @@ const calendarTypeOptions = [
   { key: 'BJ', display_name: 'BeiJing' }
 ]
 
-// arr to obj, such as { CN : 'China', US : 'USA' }
-// const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-//   acc[cur.key] = cur.display_name
-//   return acc
-// }, {})
-
 export default {
   name: 'Tab',
   components: { TabPane },
@@ -193,6 +191,11 @@ export default {
         update: 'Edit',
         create: 'Create'
       }
+    }
+  },
+  computed: {
+    aliveArr() {
+      return this.$store.getters.alive
     }
   },
   watch: {
