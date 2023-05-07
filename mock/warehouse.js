@@ -120,24 +120,6 @@ const inboundModule = [{
 },
 
 {
-  url: '/vue-element-admin/inbound/pv',
-  type: 'get',
-  response: _ => {
-    return {
-      code: 20000,
-      data: {
-        pvData: [
-          { key: 'PC', pv: 1024 },
-          { key: 'mobile', pv: 1024 },
-          { key: 'ios', pv: 1024 },
-          { key: 'android', pv: 1024 }
-        ]
-      }
-    }
-  }
-},
-
-{
   url: '/vue-element-admin/inbound/create',
   type: 'post',
   response: config => {
@@ -153,6 +135,7 @@ const inboundModule = [{
   url: '/vue-element-admin/inbound/update',
   type: 'post',
   response: config => {
+    config.body.total = (parseFloat(config.body.quantity) * parseFloat(config.body.price)).toFixed(2)
     const index = inboundArr.findIndex(v => v.id === config.body.id)
     inboundArr.splice(index, 1, config.body)
     return {
@@ -254,24 +237,6 @@ const outboundModule = [{
 },
 
 {
-  url: '/vue-element-admin/outbound/pv',
-  type: 'get',
-  response: _ => {
-    return {
-      code: 20000,
-      data: {
-        pvData: [
-          { key: 'PC', pv: 1024 },
-          { key: 'mobile', pv: 1024 },
-          { key: 'ios', pv: 1024 },
-          { key: 'android', pv: 1024 }
-        ]
-      }
-    }
-  }
-},
-
-{
   url: '/vue-element-admin/outbound/create',
   type: 'post',
   response: config => {
@@ -287,6 +252,7 @@ const outboundModule = [{
   url: '/vue-element-admin/outbound/update',
   type: 'post',
   response: config => {
+    config.body.total = (parseFloat(config.body.quantity) * parseFloat(config.body.price)).toFixed(2)
     const index = outboundArr.findIndex(v => v.id === config.body.id)
     outboundArr.splice(index, 1, config.body)
     return {
