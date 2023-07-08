@@ -5,62 +5,75 @@
       <div>
         <span v-permission="['admin']" class="permission-alert">
           Only
-          <el-tag class="permission-tag" size="small">admin</el-tag> can see this
+          <el-tag class="permission-tag" size="small">admin</el-tag>can see this
         </span>
-        <el-tag v-permission="['admin']" class="permission-sourceCode" type="info">
+        <el-tag
           v-permission="['admin']"
-        </el-tag>
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['admin']"</el-tag>
       </div>
 
       <div>
         <span v-permission="['dataOperator']" class="permission-alert">
           Only
-          <el-tag class="permission-tag" size="small">dataOperator</el-tag> can see this
+          <el-tag class="permission-tag" size="small">dataOperator</el-tag>can see this
         </span>
-        <el-tag v-permission="['dataOperator']" class="permission-sourceCode" type="info">
+        <el-tag
           v-permission="['dataOperator']"
-        </el-tag>
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['dataOperator']"</el-tag>
       </div>
 
       <div>
         <span v-permission="['accountant']" class="permission-alert">
           Only
-          <el-tag class="permission-tag" size="small">accountant</el-tag> can see this
+          <el-tag class="permission-tag" size="small">accountant</el-tag>can see this
         </span>
-        <el-tag v-permission="['accountant']" class="permission-sourceCode" type="info">
+        <el-tag
           v-permission="['accountant']"
-        </el-tag>
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['accountant']"</el-tag>
       </div>
 
       <div>
         <span v-permission="['admin', 'dataOperator']" class="permission-alert">
           Both
-          <el-tag class="permission-tag" size="small">admin</el-tag> and
-          <el-tag class="permission-tag" size="small">dataOperator</el-tag> can see this
+          <el-tag class="permission-tag" size="small">admin</el-tag>and
+          <el-tag class="permission-tag" size="small">dataOperator</el-tag>can see this
         </span>
-        <el-tag v-permission="['admin', 'dataOperator']" class="permission-sourceCode" type="info">
-          v-permission="['admin','dataOperator']"
-        </el-tag>
+        <el-tag
+          v-permission="['admin', 'dataOperator']"
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['admin','dataOperator']"</el-tag>
       </div>
 
       <div>
         <span v-permission="['admin', 'accountant']" class="permission-alert">
           Both
-          <el-tag class="permission-tag" size="small">admin</el-tag> and
-          <el-tag class="permission-tag" size="small">accountant</el-tag> can see this
+          <el-tag class="permission-tag" size="small">admin</el-tag>and
+          <el-tag class="permission-tag" size="small">accountant</el-tag>can see this
         </span>
-        <el-tag v-permission="['admin', 'accountant']" class="permission-sourceCode" type="info">
-          v-permission="['admin','accountant']"
-        </el-tag>
+        <el-tag
+          v-permission="['admin', 'accountant']"
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['admin','accountant']"</el-tag>
       </div>
 
       <div>
-        <span v-permission="['admin', 'dataOperator', 'accountant']" class="permission-alert">
-          All roles can see this
-        </span>
-        <el-tag v-permission="['admin', 'dataOperator', 'accountant']" class="permission-sourceCode" type="info">
-          v-permission="['admin','dataOperator','accountant']"
-        </el-tag>
+        <span
+          v-permission="['admin', 'dataOperator', 'accountant']"
+          class="permission-alert"
+        >All roles can see this</span>
+        <el-tag
+          v-permission="['admin', 'dataOperator', 'accountant']"
+          class="permission-sourceCode"
+          type="info"
+        >v-permission="['admin','dataOperator','accountant']"</el-tag>
       </div>
     </div>
   </div>

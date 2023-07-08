@@ -121,43 +121,45 @@ export default {
         legend: {
           data: ['inbound', 'outbound']
         },
-        series: [{
-          name: 'inbound',
-          itemStyle: {
-            normal: {
-              color: '#FF005A',
-              lineStyle: {
+        series: [
+          {
+            name: 'inbound',
+            itemStyle: {
+              normal: {
                 color: '#FF005A',
-                width: 2
+                lineStyle: {
+                  color: '#FF005A',
+                  width: 2
+                }
               }
-            }
+            },
+            smooth: true,
+            type: 'line',
+            data: inbound,
+            animationDuration: 2800,
+            animationEasing: 'cubicInOut'
           },
-          smooth: true,
-          type: 'line',
-          data: inbound,
-          animationDuration: 2800,
-          animationEasing: 'cubicInOut'
-        },
-        {
-          name: 'outbound',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
+          {
+            name: 'outbound',
+            smooth: true,
+            type: 'line',
+            itemStyle: {
+              normal: {
                 color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
+                lineStyle: {
+                  color: '#3888fa',
+                  width: 2
+                },
+                areaStyle: {
+                  color: '#f3f8ff'
+                }
               }
-            }
-          },
-          data: outbound,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }]
+            },
+            data: outbound,
+            animationDuration: 2800,
+            animationEasing: 'quadraticOut'
+          }
+        ]
       })
     }
   }

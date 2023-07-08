@@ -1,20 +1,14 @@
 <template>
   <el-table :data="list" style="width: 100%;padding-top: 15px;">
     <el-table-column label="ItemID" min-width="200">
-      <template slot-scope="scope">
-        {{ scope.row.itemID | orderNoFilter }}
-      </template>
+      <template slot-scope="scope">{{ scope.row.itemID | orderNoFilter }}</template>
     </el-table-column>
     <el-table-column label="Total" width="195" align="center">
-      <template slot-scope="scope">
-        ¥{{ scope.row.total | toThousandFilter }}
-      </template>
+      <template slot-scope="scope">¥{{ scope.row.total | toThousandFilter }}</template>
     </el-table-column>
     <el-table-column label="From" width="100" align="center">
       <template slot-scope="{row}">
-        <el-tag>
-          {{ row.type }}
-        </el-tag>
+        <el-tag>{{ row.type }}</el-tag>
       </template>
     </el-table-column>
   </el-table>

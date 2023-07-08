@@ -1,48 +1,56 @@
 <template>
   <div>
-    <el-table :data="list" border fit highlight-current-row style="width: 100%" draggable>
-      <el-table-column v-loading="loading" align="center" label="#" width="65" element-loading-text="请给我点时间！" prop="id" />
-
-      <el-table-column width="180px" label="itemID" prop="itemID" />
-
-      <el-table-column min-width="120px" label="Title">
-        <template slot-scope="{row}">
-          <span>{{ row.title }}</span>
-          <el-tag>{{ row.type }}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column width="120px" align="center" label="Date">
-        <template slot-scope="scope">
-          <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
-        </template>
-      </el-table-column>
-
-      <el-table-column class-name="status-col" label="Quantity" prop="quantity" width="150" />
-
-      <el-table-column class-name="status-col" label="Price" prop="price" width="150" />
-
-      <el-table-column class-name="status-col" label="Total" prop="total" width="150" />
-    </el-table>
-    <pagination
+    <m-Page
       v-show="total > 0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       @pagination="getList"
-    />
+    >
+      <template v-slot:table>
+        <el-table :data="list" border fit highlight-current-row style="width: 100%" draggable>
+          <el-table-column
+            v-loading="loading"
+            align="center"
+            label="#"
+            width="65"
+            element-loading-text="请给我点时间！"
+            prop="id"
+          />
+
+          <el-table-column width="180px" label="itemID" prop="itemID" />
+
+          <el-table-column min-width="120px" label="Title">
+            <template slot-scope="{row}">
+              <span>{{ row.title }}</span>
+              <el-tag>{{ row.type }}</el-tag>
+            </template>
+          </el-table-column>
+
+          <el-table-column width="120px" align="center" label="Date">
+            <template slot-scope="scope">
+              <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column class-name="status-col" label="Quantity" prop="quantity" width="150" />
+
+          <el-table-column class-name="status-col" label="Price" prop="price" width="150" />
+
+          <el-table-column class-name="status-col" label="Total" prop="total" width="150" />
+        </el-table>
+      </template>
+    </m-Page>
   </div>
 </template>
 
 <script>
-import {
-  fetchList
-} from '@/api/inbound'
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import { fetchList } from '@/api/inbound'
+import mPage from '@/components/mPage'
 import { debounce } from '@/utils/common'
 
 export default {
-  components: { Pagination },
+  components: { mPage },
   props: {
     type: {
       type: String,

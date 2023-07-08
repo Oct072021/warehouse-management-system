@@ -8,7 +8,6 @@
       autocomplete="on"
       label-position="left"
     >
-
       <div class="title-container">
         <h3 class="title">Warehouse Management System Login Form</h3>
       </div>
@@ -72,9 +71,11 @@
           <span style="margin-right:32px;">Username : accountant</span>
           <span>Password : any</span>
         </div>
-        <el-button class="thirdparty-button" type="primary" @click="showDialog = true">
-          Or connect with
-        </el-button>
+        <el-button
+          class="thirdparty-button"
+          type="primary"
+          @click="showDialog = true"
+        >Or connect with</el-button>
       </div>
     </el-form>
 
@@ -116,8 +117,12 @@ export default {
         password: '111111'
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [
+          { required: true, trigger: 'blur', validator: validateUsername }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -155,7 +160,7 @@ export default {
   methods: {
     checkCapslock(e) {
       const { key } = e
-      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
+      this.capsTooltip = key && key.length === 1 && key >= 'A' && key <= 'Z'
     },
     showPwd() {
       if (this.passwordType === 'password') {
@@ -172,10 +177,14 @@ export default {
         if (valid) {
           this.loading = true
           // Vuex dispatches login method
-          this.$store.dispatch('user/login', this.loginForm)
+          this.$store
+            .dispatch('user/login', this.loginForm)
             .then(() => {
               // return value => next page
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+              this.$router.push({
+                path: this.redirect || '/',
+                query: this.otherQuery
+              })
               this.loading = false
             })
             .catch(() => {

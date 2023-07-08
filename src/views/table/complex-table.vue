@@ -8,7 +8,13 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="listQuery.type" placeholder="Type" clearable class="filter-item" style="width: 130px">
+      <el-select
+        v-model="listQuery.type"
+        placeholder="Type"
+        clearable
+        class="filter-item"
+        style="width: 130px"
+      >
         <el-option
           v-for="item in calendarTypeOptions"
           :key="item.key"
@@ -16,10 +22,26 @@
           :value="item.key"
         />
       </el-select>
-      <el-select v-model="listQuery.sort" style="width: 140px" class="filter-item" @change="handleFilter">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
+      <el-select
+        v-model="listQuery.sort"
+        style="width: 140px"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in sortOptions"
+          :key="item.key"
+          :label="item.label"
+          :value="item.key"
+        />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+      <el-button
+        v-waves
+        class="filter-item"
+        type="primary"
+        icon="el-icon-search"
+        @click="handleFilter"
+      >Search</el-button>
       <el-button
         v-waves
         :loading="downloadLoading"
@@ -30,53 +52,67 @@
       >Export</el-button>
     </div>
 
-    <el-table
-      :key="tableKey"
-      v-loading="listLoading"
-      :data="list"
-      border
-      fit
-      highlight-current-row
-      style="width: 100%;"
-      @sort-change="sortChange"
-    >
-      <el-table-column label="#" prop="id" sortable="custom" align="center" width="80" :class-name="getSortClass('id')" />
-
-      <el-table-column label="ItemID" prop="itemID" width="200px" align="center" />
-
-      <el-table-column label="Title" min-width="200px">
-        <template slot-scope="{row}">
-          <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
-          <el-tag>{{ row.type | typeFilter }}</el-tag>
-        </template>
-      </el-table-column>
-
-      <el-table-column label="Specs" width="110px" align="center" prop="specs" />
-
-      <el-table-column label="Quantity" width="110px" align="center" prop="quantity" />
-
-      <el-table-column label="Mass" width="80px" align="center" prop="mass" />
-
-      <el-table-column label="Actions" align="center" width="230" class-name="small-padding fixed-width">
-        <template slot-scope="{row, $index}">
-          <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
-          <el-button
-            v-if="row.status != 'deleted'"
-            size="mini"
-            type="danger"
-            @click="handleDelete(row, $index)"
-          >Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-
-    <pagination
+    <m-Page
       v-show="total > 0"
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.limit"
       @pagination="getList"
-    />
+    >
+      <template v-slot:table>
+        <el-table
+          :key="tableKey"
+          v-loading="listLoading"
+          :data="list"
+          border
+          fit
+          highlight-current-row
+          style="width: 100%;"
+          @sort-change="sortChange"
+        >
+          <el-table-column
+            label="#"
+            prop="id"
+            sortable="custom"
+            align="center"
+            width="80"
+            :class-name="getSortClass('id')"
+          />
+
+          <el-table-column label="ItemID" prop="itemID" width="200px" align="center" />
+
+          <el-table-column label="Title" min-width="200px">
+            <template slot-scope="{row}">
+              <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
+              <el-tag>{{ row.type | typeFilter }}</el-tag>
+            </template>
+          </el-table-column>
+
+          <el-table-column label="Specs" width="110px" align="center" prop="specs" />
+
+          <el-table-column label="Quantity" width="110px" align="center" prop="quantity" />
+
+          <el-table-column label="Mass" width="80px" align="center" prop="mass" />
+
+          <el-table-column
+            label="Actions"
+            align="center"
+            width="230"
+            class-name="small-padding fixed-width"
+          >
+            <template slot-scope="{row, $index}">
+              <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
+              <el-button
+                v-if="row.status != 'deleted'"
+                size="mini"
+                type="danger"
+                @click="handleDelete(row, $index)"
+              >Delete</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
+    </m-Page>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form
@@ -89,12 +125,15 @@
       >
         <el-form-item label="Repository" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+            <el-option
+              v-for="item in calendarTypeOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
           </el-select>
         </el-form-item>
-        <el-form-item label="ItemID" prop="itemID">
-          {{ temp.itemID }}
-        </el-form-item>
+        <el-form-item label="ItemID" prop="itemID">{{ temp.itemID }}</el-form-item>
         <el-form-item label="Title" prop="title">
           <el-input v-model="temp.title" />
         </el-form-item>
@@ -114,7 +153,10 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogStatus === 'create' ? createData() : updateData()">Confirm</el-button>
+        <el-button
+          type="primary"
+          @click="dialogStatus === 'create' ? createData() : updateData()"
+        >Confirm</el-button>
       </div>
     </el-dialog>
 
@@ -131,16 +173,11 @@
 </template>
 
 <script>
-import {
-  fetchList,
-  createArticle,
-  updateArticle,
-  remove
-} from '@/api/outbound'
+import { fetchList, createArticle, updateArticle, remove } from '@/api/outbound'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import { debounce, throttle } from '@/utils/common'
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import mPage from '@/components/mPage' // page components
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -157,7 +194,7 @@ const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
 
 export default {
   name: 'ComplexTable',
-  components: { Pagination },
+  components: { mPage },
   directives: { waves },
   filters: {
     typeFilter(type) {
@@ -216,9 +253,7 @@ export default {
         quantity: [
           { required: true, message: 'quantity is required', trigger: 'blur' }
         ],
-        mass: [
-          { required: true, message: 'mass is required', trigger: 'blur' }
-        ]
+        mass: [{ required: true, message: 'mass is required', trigger: 'blur' }]
       },
       downloadLoading: false
     }
@@ -244,7 +279,7 @@ export default {
         // Just to simulate the time of the request
         setTimeout(() => {
           this.listLoading = false
-        }, 1.5 * 1000)
+        }, 1 * 1000)
       })
     },
     handleFilter() {

@@ -22,10 +22,26 @@
         class="filter-item"
         @keyup.enter.native="handleFilter"
       />
-      <el-select v-model="list.sort" style="width: 140px" class="filter-item" @change="handleFilter">
-        <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
+      <el-select
+        v-model="list.sort"
+        style="width: 140px"
+        class="filter-item"
+        @change="handleFilter"
+      >
+        <el-option
+          v-for="item in sortOptions"
+          :key="item.key"
+          :label="item.label"
+          :value="item.key"
+        />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">Search</el-button>
+      <el-button
+        v-waves
+        class="filter-item"
+        type="primary"
+        icon="el-icon-search"
+        @click="handleFilter"
+      >Search</el-button>
       <el-button
         class="filter-item"
         style="margin-left: 10px;"
@@ -42,9 +58,15 @@
         @click="handleDownload"
       >Export</el-button>
     </div>
+
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
-      <el-tab-pane v-for="item in tabMapOptions" :key="item.key" :label="item.label" :name="item.key">
-        <keep-alive :include="aliveArr">
+      <el-tab-pane
+        v-for="item in tabMapOptions"
+        :key="item.key"
+        :label="item.label"
+        :name="item.key"
+      >
+        <keep-alive>
           <tab-pane
             v-if="activeName == item.key"
             :id="item.key"
@@ -71,7 +93,12 @@
       >
         <el-form-item label="Repository" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
+            <el-option
+              v-for="item in calendarTypeOptions"
+              :key="item.key"
+              :label="item.display_name"
+              :value="item.key"
+            />
           </el-select>
         </el-form-item>
         <el-form-item label="ItemID" prop="itemID">
@@ -107,10 +134,7 @@
 </template>
 
 <script>
-import {
-  createArticle,
-  updateArticle
-} from '@/api/inbound'
+import { createArticle, updateArticle } from '@/api/inbound'
 import TabPane from './components/TabPane'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
@@ -171,9 +195,7 @@ export default {
         price: [
           { required: true, message: 'price is required', trigger: 'blur' }
         ],
-        mass: [
-          { required: true, message: 'mass is required', trigger: 'blur' }
-        ]
+        mass: [{ required: true, message: 'mass is required', trigger: 'blur' }]
       },
       temp: {
         id: undefined,
@@ -218,8 +240,26 @@ export default {
     handleDownload: throttle(function() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['itemID', 'title', 'data', 'specs', 'quantity', 'price', 'total', 'mass']
-        const filterVal = ['itemID', 'title', 'timestamp', 'specs', 'quantity', 'price', 'total', 'mass']
+        const tHeader = [
+          'itemID',
+          'title',
+          'data',
+          'specs',
+          'quantity',
+          'price',
+          'total',
+          'mass'
+        ]
+        const filterVal = [
+          'itemID',
+          'title',
+          'timestamp',
+          'specs',
+          'quantity',
+          'price',
+          'total',
+          'mass'
+        ]
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,
@@ -280,7 +320,13 @@ export default {
                 duration: 2000
               })
               // The TabPane component listens for the searchList, passing in a new list to cause the view to refresh
-              this.list = { page: 1, limit: 10, title: undefined, itemID: undefined, sort: '+id' }
+              this.list = {
+                page: 1,
+                limit: 10,
+                title: undefined,
+                itemID: undefined,
+                sort: '+id'
+              }
             }
           })
         }
@@ -310,7 +356,13 @@ export default {
                 duration: 2000
               })
               // The TabPane component listens for the searchList, passing in a new list to refresh the view
-              this.list = { page: 1, limit: 10, title: undefined, itemID: undefined, sort: '+id' }
+              this.list = {
+                page: 1,
+                limit: 10,
+                title: undefined,
+                itemID: undefined,
+                sort: '+id'
+              }
             }
           })
         }

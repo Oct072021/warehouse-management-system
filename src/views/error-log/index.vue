@@ -9,30 +9,22 @@
         <template slot-scope="{row}">
           <div>
             <span class="message-title">Msg:</span>
-            <el-tag type="danger">
-              {{ row.err.message }}
-            </el-tag>
+            <el-tag type="danger">{{ row.err.message }}</el-tag>
           </div>
           <br>
           <div>
-            <span class="message-title" style="padding-right: 10px;">Info: </span>
-            <el-tag type="warning">
-              {{ row.info }}
-            </el-tag>
+            <span class="message-title" style="padding-right: 10px;">Info:</span>
+            <el-tag type="warning">{{ row.info }}</el-tag>
           </div>
           <br>
           <div>
-            <span class="message-title" style="padding-right: 16px;">Url: </span>
-            <el-tag type="success">
-              {{ row.url }}
-            </el-tag>
+            <span class="message-title" style="padding-right: 16px;">Url:</span>
+            <el-tag type="success">{{ row.url }}</el-tag>
           </div>
         </template>
       </el-table-column>
       <el-table-column label="Stack">
-        <template slot-scope="scope">
-          {{ scope.row.err.stack }}
-        </template>
+        <template slot-scope="scope">{{ scope.row.err.stack }}</template>
       </el-table-column>
     </el-table>
   </div>
