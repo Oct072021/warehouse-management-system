@@ -72,10 +72,7 @@ export default {
   data() {
     return {
       list: null,
-      listQuery: {
-        ...this.searchList,
-        type: this.type
-      },
+      listQuery: null,
       loading: false,
       total: 0
     }
@@ -83,8 +80,7 @@ export default {
   watch: {
     searchList: {
       handler: debounce(function(val) {
-        this.listQuery = { ...val, type: this.type }
-        this.getList()
+        this.resetAlive_search()
       }, 2 * 1000),
       deep: true
     }
@@ -94,6 +90,7 @@ export default {
   },
   methods: {
     getList() {
+      this.listQuery = { ...this.searchList, type: this.type }
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
@@ -101,6 +98,15 @@ export default {
         this.total = res.data.total
         this.$emit('create', res.data.allItems) // Return all data
       })
+    },
+    resetAlive_search() {
+      // To clear keep-alive cache,ensure the operation of the search function
+      this.$store.dispatch('alive/removeAlive') // remove keep-alive cache
+      this.getList()
+      // reset keep-alive cache
+      setTimeout(() => {
+        this.$store.dispatch('alive/setAlive')
+      }, 0)
     }
   }
 }

@@ -93,19 +93,15 @@ export default {
   data() {
     return {
       list: null,
-      listQuery: {
-        ...this.searchList,
-        type: this.type
-      },
+      listQuery: null,
       loading: false,
       total: 0
     }
   },
   watch: {
     searchList: {
-      handler: debounce(function(val) {
-        this.listQuery = { ...val, type: this.type }
-        this.getList()
+      handler: debounce(function() {
+        this.resetAlive_search()
       }, 2 * 1000),
       deep: true
     }
@@ -115,21 +111,19 @@ export default {
   },
   methods: {
     getList() {
+      this.listQuery = { ...this.searchList, type: this.type }
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
-        console.log('getlist', this.list)
         this.loading = false
         this.total = res.data.total
         this.$emit('create', res.data.allItems) // return all data
       })
-      this.$forceUpdate()
     },
     handleUpdate(row) {
       this.$emit('handleUpdate', row)
     },
     handleRemove(row, index) {
-      console.log(row)
       remove(row).then(res => {
         if (res.code === 20000) {
           this.$notify({
@@ -141,6 +135,15 @@ export default {
           this.getList()
         }
       })
+    },
+    resetAlive_search() {
+      // To clear keep-alive cache,ensure the operation of the search function
+      this.$store.dispatch('alive/removeAlive') // remove keep-alive cache
+      this.getList()
+      // reset keep-alive cache
+      setTimeout(() => {
+        this.$store.dispatch('alive/setAlive')
+      }, 0)
     }
   }
 }

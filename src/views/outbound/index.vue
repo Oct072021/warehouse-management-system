@@ -66,9 +66,11 @@
         :label="item.label"
         :name="item.key"
       >
-        <keep-alive>
+        <keep-alive :include="alive">
           <tab-pane
             v-if="activeName == item.key"
+            :ref="item.key"
+            :key="item.key"
             :type="item.key"
             :search-list="list"
             @create="showCreatedTimes"
@@ -224,6 +226,11 @@ export default {
       }
     }
   },
+  computed: {
+    alive() {
+      return this.$store.getters.alive
+    }
+  },
   watch: {
     activeName(val) {
       this.$router.push(`${this.$route.path}?tab=${val}`)
@@ -285,7 +292,13 @@ export default {
       )
     },
     handleFilter() {
-      console.log({ ...this.list })
+      const temp = this.$refs
+      for (const key in temp) {
+        if (temp[key].length !== 0) {
+          temp[key][0].resetAlive_search() // invoke children component method
+          break
+        }
+      }
     },
     resetTemp() {
       this.temp = {
