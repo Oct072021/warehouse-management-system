@@ -58,7 +58,7 @@
         :label="item.label"
         :name="item.key"
       >
-        <keep-alive>
+        <keep-alive :include="alive">
           <tab-pane
             v-if="activeName == item.key"
             :ref="item.key"
@@ -110,8 +110,6 @@ export default {
       downloadLoading: false,
       allData: null,
       list: {
-        page: 1,
-        limit: 10,
         title: undefined,
         itemID: undefined,
         sort: '+id'
@@ -159,6 +157,11 @@ export default {
         update: 'Edit',
         create: 'Create'
       }
+    }
+  },
+  computed: {
+    alive() {
+      return this.$store.getters.alive
     }
   },
   watch: {

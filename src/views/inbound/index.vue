@@ -162,8 +162,6 @@ export default {
       downloadLoading: false,
       allData: null,
       list: {
-        page: 1,
-        limit: 10,
         title: undefined,
         itemID: undefined,
         sort: '+id'

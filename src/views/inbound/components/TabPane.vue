@@ -21,7 +21,7 @@
           <el-table-column width="180px" label="itemID" prop="itemID" />
 
           <el-table-column min-width="120px" label="Title">
-            <template slot-scope="{row}">
+            <template slot-scope="{ row }">
               <span>{{ row.title }}</span>
               <el-tag>{{ row.type }}</el-tag>
             </template>
@@ -29,7 +29,7 @@
 
           <el-table-column width="120px" align="center" label="Date">
             <template slot-scope="scope">
-              <span>{{ scope.row.timestamp | parseTime('{y}-{m}-{d}') }}</span>
+              <span>{{ scope.row.timestamp | parseTime("{y}-{m}-{d}") }}</span>
             </template>
           </el-table-column>
 
@@ -49,7 +49,7 @@
             width="170"
             class-name="small-padding fixed-width"
           >
-            <template slot-scope="{row, $index}">
+            <template slot-scope="{ row, $index }">
               <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
               <el-button
                 v-if="row.status != 'deleted'"
@@ -81,8 +81,6 @@ export default {
       type: Object,
       default: () => {
         return {
-          page: 1,
-          limit: 10,
           sort: '+id',
           title: undefined,
           itemID: undefined
@@ -93,14 +91,21 @@ export default {
   data() {
     return {
       list: null,
-      listQuery: null,
+      listQuery: {
+        page: 1,
+        limit: 10,
+        sort: '+id',
+        title: undefined,
+        itemID: undefined,
+        type: this.type
+      },
       loading: false,
       total: 0
     }
   },
   watch: {
     searchList: {
-      handler: debounce(function() {
+      handler: debounce(function(val) {
         this.resetAlive_search()
       }, 2 * 1000),
       deep: true
@@ -111,7 +116,7 @@ export default {
   },
   methods: {
     getList() {
-      this.listQuery = { ...this.searchList, type: this.type }
+      this.listQuery = { ...this.listQuery, ...this.searchList }
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
@@ -148,4 +153,3 @@ export default {
   }
 }
 </script>
-

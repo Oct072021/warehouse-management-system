@@ -60,8 +60,6 @@ export default {
       type: Object,
       default: () => {
         return {
-          page: 1,
-          limit: 10,
           sort: '+id',
           title: undefined,
           itemID: undefined
@@ -73,7 +71,11 @@ export default {
     return {
       list: null,
       listQuery: {
-        ...this.searchList,
+        page: 1,
+        limit: 10,
+        sort: '+id',
+        title: undefined,
+        itemID: undefined,
         type: this.type
       },
       loading: false,
@@ -93,7 +95,7 @@ export default {
   },
   methods: {
     getList() {
-      this.listQuery = { ...this.searchList, type: this.type }
+      this.listQuery = { ...this.listQuery, ...this.searchList }
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
