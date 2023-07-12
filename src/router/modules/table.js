@@ -3,19 +3,18 @@
 import Layout from '@/layout'
 
 const tableRouter = {
-  path: '/table',
+  path: '/stock',
   component: Layout,
-  redirect: '/table/stock',
-  name: 'Table',
+  name: 'Stock',
   meta: {
-    title: 'Table',
+    title: 'Stock',
     icon: 'table',
     roles: ['admin', 'dataOperator']
   },
   children: [
     {
-      path: 'stock',
-      component: () => import('@/views/table/complex-table'),
+      path: '',
+      component: () => import('@/views/stock'),
       name: 'stock',
       meta: { title: 'stock' }
     }

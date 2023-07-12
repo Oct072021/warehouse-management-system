@@ -9,6 +9,8 @@ import Layout from '@/layout'
 /* Router Modules */
 import chartsRouter from './modules/charts'
 import tableRouter from './modules/table'
+import recordRouter from './modules/record'
+import financialRouter from './modules/financial'
 
 /**
  * Note: sub-menu only appear when route children.length >= 1
@@ -129,7 +131,6 @@ export const asyncRoutes = [
   {
     path: '/permission',
     component: Layout,
-    redirect: '/permission/page',
     alwaysShow: true, // will always show the root menu
     name: 'Permission',
     meta: {
@@ -161,55 +162,8 @@ export const asyncRoutes = [
   /** when your routing map is too long, you can split it into small modules **/
   chartsRouter,
   tableRouter,
-
-  {
-    path: '/record',
-    component: Layout,
-    meta: {
-      title: 'Record',
-      icon: 'tab',
-      roles: ['admin', 'dataOperator']
-    },
-    children: [
-      {
-        path: 'inbound',
-        component: () => import('@/views/inbound/index'),
-        name: 'inbound',
-        meta: { title: 'inbound' }
-      },
-      {
-        path: 'outbound',
-        component: () => import('@/views/outbound/index'),
-        name: 'outbound',
-        meta: { title: 'outbound' }
-      }
-    ]
-  },
-
-  {
-    path: '/Financial',
-    component: Layout,
-    meta: {
-      title: 'Financial',
-      icon: 'money',
-      roles: ['accountant']
-    },
-    children: [
-      {
-        path: 'income',
-        component: () => import('@/views/income/index'),
-        name: 'income',
-        meta: { title: 'income' }
-
-      },
-      {
-        path: 'expend',
-        component: () => import('@/views/expend/index'),
-        name: 'expend',
-        meta: { title: 'expend' }
-      }
-    ]
-  },
+  recordRouter,
+  financialRouter,
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
