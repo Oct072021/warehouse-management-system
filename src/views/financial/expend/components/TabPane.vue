@@ -47,7 +47,6 @@
 <script>
 import { fetchList } from '@/api/inbound'
 import mPage from '@/components/mPage'
-import { debounce } from '@/utils/common'
 
 export default {
   components: { mPage },
@@ -84,9 +83,9 @@ export default {
   },
   watch: {
     searchList: {
-      handler: debounce(function(val) {
+      handler: function(val) {
         this.resetAlive_search()
-      }, 2 * 1000),
+      },
       deep: true
     }
   },

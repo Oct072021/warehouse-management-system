@@ -7,57 +7,7 @@
       title="Tab with keep-alive"
       type="success"
     />
-    <div class="filter-container">
-      <el-input
-        v-model="list.title"
-        placeholder="Title"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-input
-        v-model="list.itemID"
-        placeholder="ItemID"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select
-        v-model="list.sort"
-        style="width: 140px"
-        class="filter-item"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="item in sortOptions"
-          :key="item.key"
-          :label="item.label"
-          :value="item.key"
-        />
-      </el-select>
-      <el-button
-        v-waves
-        class="filter-item"
-        type="primary"
-        icon="el-icon-search"
-        @click="handleFilter"
-      >Search</el-button>
-      <el-button
-        class="filter-item"
-        style="margin-left: 10px;"
-        type="primary"
-        icon="el-icon-edit"
-        @click="handleCreate"
-      >Add</el-button>
-      <el-button
-        v-waves
-        :loading="downloadLoading"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-download"
-        @click="handleDownload"
-      >Export</el-button>
-    </div>
+    <HeaderFilter :config-data="config" @buttonClick="buttonClick" />
 
     <el-tabs v-model="activeName" style="margin-top:15px;" type="border-card">
       <el-tab-pane
@@ -137,9 +87,11 @@
 <script>
 import { createArticle, updateArticle } from '@/api/outbound'
 import TabPane from './components/TabPane'
+import HeaderFilter from '@/components/HeaderFilter'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import { throttle } from '@/utils/common'
+import { config } from './config'
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -148,18 +100,13 @@ const calendarTypeOptions = [
   { key: 'BJ', display_name: 'BeiJing' }
 ]
 
-// arr to obj, such as { CN : 'China', US : 'USA' }
-// const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-//   acc[cur.key] = cur.display_name
-//   return acc
-// }, {})
-
 export default {
   name: 'Tab',
-  components: { TabPane },
+  components: { TabPane, HeaderFilter },
   directives: { waves },
   data() {
     return {
+      config,
       tabMapOptions: [
         { label: 'GuangZhou', key: 'GZ' },
         { label: 'ShangHai', key: 'SH' },
@@ -175,10 +122,6 @@ export default {
         itemID: undefined,
         sort: '+id'
       },
-      sortOptions: [
-        { label: 'ID Ascending', key: '+id' },
-        { label: 'ID Descending', key: '-id' }
-      ],
       calendarTypeOptions,
       dialogFormVisible: false,
       rules: {
@@ -242,6 +185,17 @@ export default {
     }
   },
   methods: {
+    buttonClick(data, e) {
+      this.list = { ...this.list, ...data }
+      console.log(this.list)
+      if (e === 'search') {
+        this.handleFilter()
+      } else if (e === 'add') {
+        this.handleCreate()
+      } else if (e === 'export') {
+        this.handleDownload()
+      }
+    },
     showCreatedTimes(data) {
       this.createdTimes = this.createdTimes + 1
       this.allData = data
@@ -335,14 +289,8 @@ export default {
                 type: 'success',
                 duration: 2000
               })
-              // The TabPane component listens for the searchList, passing in a new list to refresh the view
-              this.list = {
-                page: 1,
-                limit: 10,
-                title: undefined,
-                itemID: undefined,
-                sort: '+id'
-              }
+              // refresh the view
+              this.handleFilter()
             }
           })
         }
@@ -371,14 +319,8 @@ export default {
                 type: 'success',
                 duration: 2000
               })
-              // The TabPane component listens for the searchList, passing in a new list to cause the view to refresh
-              this.list = {
-                page: 1,
-                limit: 10,
-                title: undefined,
-                itemID: undefined,
-                sort: '+id'
-              }
+              // refresh the view
+              this.handleFilter()
             }
           })
         }

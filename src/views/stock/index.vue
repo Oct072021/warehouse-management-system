@@ -1,56 +1,6 @@
 <template>
   <div class="app-container">
-    <div class="filter-container">
-      <el-input
-        v-model="listQuery.title"
-        placeholder="Title"
-        style="width: 200px;"
-        class="filter-item"
-        @keyup.enter.native="handleFilter"
-      />
-      <el-select
-        v-model="listQuery.type"
-        placeholder="Type"
-        clearable
-        class="filter-item"
-        style="width: 130px"
-      >
-        <el-option
-          v-for="item in calendarTypeOptions"
-          :key="item.key"
-          :label="item.display_name + '(' + item.key + ')'"
-          :value="item.key"
-        />
-      </el-select>
-      <el-select
-        v-model="listQuery.sort"
-        style="width: 140px"
-        class="filter-item"
-        @change="handleFilter"
-      >
-        <el-option
-          v-for="item in sortOptions"
-          :key="item.key"
-          :label="item.label"
-          :value="item.key"
-        />
-      </el-select>
-      <el-button
-        v-waves
-        class="filter-item"
-        type="primary"
-        icon="el-icon-search"
-        @click="handleFilter"
-      >Search</el-button>
-      <el-button
-        v-waves
-        :loading="downloadLoading"
-        class="filter-item"
-        type="primary"
-        icon="el-icon-download"
-        @click="handleDownload"
-      >Export</el-button>
-    </div>
+    <HeaderFilter :config-data="config" @buttonClick="buttonClick" />
 
     <m-Page
       v-show="total > 0"
@@ -176,8 +126,10 @@
 import { fetchList, createArticle, updateArticle, remove } from '@/api/outbound'
 import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
-import { debounce, throttle } from '@/utils/common'
+import { throttle } from '@/utils/common'
 import mPage from '@/components/mPage' // page components
+import HeaderFilter from '@/components/HeaderFilter'
+import { config } from './config'
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -186,23 +138,13 @@ const calendarTypeOptions = [
   { key: 'BJ', display_name: 'BeiJing' }
 ]
 
-// arr to obj, such as { CN : 'China', US : 'USA' }
-const calendarTypeKeyValue = calendarTypeOptions.reduce((acc, cur) => {
-  acc[cur.key] = cur.display_name
-  return acc
-}, {})
-
 export default {
   name: 'Stock',
-  components: { mPage },
+  components: { mPage, HeaderFilter },
   directives: { waves },
-  filters: {
-    typeFilter(type) {
-      return calendarTypeKeyValue[type]
-    }
-  },
   data() {
     return {
+      config,
       tableKey: 0,
       list: null,
       total: 0,
@@ -260,9 +202,9 @@ export default {
   },
   watch: {
     listQuery: {
-      handler: debounce(function() {
-        this.getList()
-      }, 2 * 1000),
+      handler: function() {
+        this.handleFilter()
+      },
       deep: true
     }
   },
@@ -270,6 +212,14 @@ export default {
     this.getList()
   },
   methods: {
+    buttonClick(data, e) {
+      this.listQuery = { ...this.listQuery, ...data }
+      if (e === 'search') {
+        this.handleFilter()
+      } else if (e === 'export') {
+        this.handleDownload()
+      }
+    },
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {

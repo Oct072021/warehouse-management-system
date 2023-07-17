@@ -69,7 +69,6 @@
 
 <script>
 import { fetchList, remove } from '@/api/outbound'
-import { debounce } from '@/utils/common'
 import mPage from '@/components/mPage'
 
 export default {
@@ -107,9 +106,9 @@ export default {
   },
   watch: {
     searchList: {
-      handler: debounce(function(val) {
+      handler: function(val) {
         this.resetAlive_search()
-      }, 2 * 1000),
+      },
       deep: true
     }
   },

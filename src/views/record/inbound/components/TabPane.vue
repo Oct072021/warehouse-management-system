@@ -67,7 +67,6 @@
 
 <script>
 import { fetchList, remove } from '@/api/inbound'
-import { debounce } from '@/utils/common'
 import mPage from '@/components/mPage'
 
 export default {
@@ -105,9 +104,9 @@ export default {
   },
   watch: {
     searchList: {
-      handler: debounce(function(val) {
+      handler: function(val) {
         this.resetAlive_search()
-      }, 2 * 1000),
+      },
       deep: true
     }
   },
@@ -117,6 +116,7 @@ export default {
   methods: {
     getList() {
       this.listQuery = { ...this.listQuery, ...this.searchList }
+      console.log(this.listQuery)
       this.loading = true
       fetchList(this.listQuery).then(res => {
         this.list = res.data.items
