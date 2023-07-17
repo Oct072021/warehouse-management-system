@@ -124,7 +124,6 @@
 
 <script>
 import { fetchList, createArticle, updateArticle, remove } from '@/api/outbound'
-import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import { throttle } from '@/utils/common'
 import mPage from '@/components/mPage' // page components
@@ -141,7 +140,6 @@ const calendarTypeOptions = [
 export default {
   name: 'Stock',
   components: { mPage, HeaderFilter },
-  directives: { waves },
   data() {
     return {
       config,

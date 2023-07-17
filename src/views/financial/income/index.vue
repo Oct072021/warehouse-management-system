@@ -36,7 +36,6 @@
 import { createArticle } from '@/api/outbound'
 import TabPane from './components/TabPane'
 import HeaderFilter from '@/components/HeaderFilter'
-import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import { throttle } from '@/utils/common'
 import { config } from './config'
@@ -51,7 +50,6 @@ const calendarTypeOptions = [
 export default {
   name: 'Tab',
   components: { TabPane, HeaderFilter },
-  directives: { waves },
   data() {
     return {
       config,
