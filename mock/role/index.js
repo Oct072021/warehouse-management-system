@@ -82,10 +82,13 @@ module.exports = [
   {
     url: '/vue-element-admin/role',
     type: 'post',
-    response: {
-      code: 20000,
-      data: {
-        key: Mock.mock('@integer(300, 5000)')
+    response: config => {
+      const role = config.body
+      role.key = Mock.mock('@integer(300, 5000)')
+      roles.push(role)
+      return {
+        code: 20000,
+        data: role
       }
     }
   },
@@ -94,10 +97,17 @@ module.exports = [
   {
     url: '/vue-element-admin/role/[A-Za-z0-9]',
     type: 'put',
-    response: {
-      code: 20000,
-      data: {
-        status: 'success'
+    response: config => {
+      const role = config.body
+      for (let index = 0; index < roles.length; index++) {
+        if (roles[index].key === role.key) {
+          roles.splice(index, 1, Object.assign({}, role))
+          break
+        }
+      }
+      return {
+        code: 20000,
+        data: roles
       }
     }
   },

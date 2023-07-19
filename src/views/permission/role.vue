@@ -106,6 +106,7 @@ export default {
       this.routes = this.generateRoutes(res.data)
       console.log('route', this.routes)
     },
+
     async getRoles() {
       const res = await getRoles()
       this.rolesList = res.data
@@ -156,6 +157,7 @@ export default {
       })
       return data
     },
+
     handleAddRole() {
       this.role = Object.assign({}, defaultRole)
       if (this.$refs.tree) {
@@ -164,6 +166,7 @@ export default {
       this.dialogType = 'new'
       this.dialogVisible = true
     },
+
     handleEdit(scope) {
       this.dialogType = 'edit'
       this.dialogVisible = true
@@ -177,6 +180,7 @@ export default {
         this.checkStrictly = false
       })
     },
+
     handleDelete({ $index, row }) {
       this.$confirm('Confirm to remove the role?', 'Warning', {
         confirmButtonText: 'Confirm',
@@ -195,6 +199,7 @@ export default {
           console.error(err)
         })
     },
+
     generateTree(routes, basePath = '/', checkedKeys) {
       const res = []
 
@@ -219,6 +224,7 @@ export default {
       }
       return res
     },
+
     async confirmRole() {
       const isEdit = this.dialogType === 'edit'
 
@@ -230,32 +236,36 @@ export default {
       )
 
       if (isEdit) {
-        await updateRole(this.role.key, this.role)
-        for (let index = 0; index < this.rolesList.length; index++) {
-          if (this.rolesList[index].key === this.role.key) {
-            this.rolesList.splice(index, 1, Object.assign({}, this.role))
-            break
-          }
+        // Edit Role
+        const { code } = await updateRole(this.role.key, this.role)
+        if (code === 20000) {
+          this.$notify({
+            title: 'Success',
+            dangerouslyUseHTMLString: true,
+            message: `Edit Successfully`,
+            type: 'success'
+          })
         }
       } else {
-        const { data } = await addRole(this.role)
-        this.role.key = data.key
-        this.rolesList.push(this.role)
-      }
-
-      const { description, key, name } = this.role
-      this.dialogVisible = false
-      this.$notify({
-        title: 'Success',
-        dangerouslyUseHTMLString: true,
-        message: `
-            <div>Role Key: ${key}</div>
-            <div>Role Name: ${name}</div>
-            <div>Description: ${description}</div>
+        // New Role
+        const { code, data } = await addRole(this.role)
+        if (code === 20000) {
+          this.$notify({
+            title: 'Success',
+            dangerouslyUseHTMLString: true,
+            message: `
+            <div>Role Key: ${data.key}</div>
+            <div>Role Name: ${data.name}</div>
+            <div>Description: ${data.description}</div>
           `,
-        type: 'success'
-      })
+            type: 'success'
+          })
+        }
+      }
+      this.dialogVisible = false
+      this.getRoles()
     },
+
     // reference: src/view/layout/components/Sidebar/SidebarItem.vue
     onlyOneShowingChild(children = [], parent) {
       let onlyOneChild = null

@@ -118,19 +118,18 @@ const asyncRoutes = [
   },
 
   {
-    path: '/table',
+    path: '/stock',
     component: 'layout/Layout',
-    redirect: '/table/stock',
-    name: 'Table',
+    name: 'Stock',
     meta: {
-      title: 'Table',
+      title: 'Stock',
       icon: 'table',
       roles: ['admin', 'dataOperator']
     },
     children: [
       {
-        path: 'stock',
-        component: 'views/table/complex-table',
+        path: '',
+        component: 'views/stock',
         name: 'stock',
         meta: { title: 'stock' }
       }
@@ -148,13 +147,13 @@ const asyncRoutes = [
     children: [
       {
         path: 'inbound',
-        component: 'views/inbound/index',
+        component: 'views/record/inbound/index',
         name: 'inbound',
         meta: { title: 'inbound' }
       },
       {
         path: 'outbound',
-        component: 'views/outbound/index',
+        component: 'views/record/outbound/index',
         name: 'outbound',
         meta: { title: 'outbound' }
       }
@@ -172,14 +171,14 @@ const asyncRoutes = [
     children: [
       {
         path: 'income',
-        component: 'views/income/index',
+        component: 'views/financial/income/index',
         name: 'income',
         meta: { title: 'income' }
 
       },
       {
         path: 'expend',
-        component: 'views/expend/index',
+        component: 'views/financial/expend/index',
         name: 'expend',
         meta: { title: 'expend' }
       }
