@@ -12,16 +12,14 @@ export function throttle(fn, delay) {
   return function() {
     const currentTime = Date.now()
     const remaining = delay - (currentTime - startTime)
-    const _this = this
-    const args = arguments
     clearTimeout(timer)
     if (remaining <= 0) {
       // first click must work
-      fn.apply(_this, args)
+      fn.apply(this, arguments)
       startTime = Date.now()
     } else {
       // last click must work
-      timer = setTimeout(() => fn.apply(_this, args), remaining)
+      timer = setTimeout(() => fn.apply(this, arguments), remaining)
     }
   }
 }
@@ -36,9 +34,7 @@ export function throttle(fn, delay) {
 export function debounce(fn, delay) {
   let timeout = null
   return function() {
-    const _this = this
-    const args = arguments
     if (timeout) clearTimeout(timeout)
-    timeout = setTimeout(() => fn.apply(_this, args), delay)
+    timeout = setTimeout(() => fn.apply(this, arguments), delay)
   }
 }
