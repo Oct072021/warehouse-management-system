@@ -4,13 +4,13 @@
       <span class="wx-svg-container">
         <svg-icon icon-class="wechat" class="icon" />
       </span>
-      WeChat
+      {{ $t(`login.wechat`) }}
     </div>
     <div class="sign-btn" @click="tencentHandleClick('tencent')">
       <span class="qq-svg-container">
         <svg-icon icon-class="qq" class="icon" />
       </span>
-      QQ
+      {{ $t(`login.qq`) }}
     </div>
   </div>
 </template>

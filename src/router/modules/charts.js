@@ -17,13 +17,13 @@ const chartsRouter = {
       path: 'inbound-chart',
       component: () => import('@/views/charts/inbound-chart'),
       name: 'inboundChart',
-      meta: { title: 'inbound Chart', noCache: true }
+      meta: { title: 'InboundChart', noCache: true }
     },
     {
       path: 'outbound-chart',
       component: () => import('@/views/charts/outbound-chart'),
       name: 'outboundChart',
-      meta: { title: 'outbound Chart', noCache: true }
+      meta: { title: 'OutboundChart', noCache: true }
     }
   ]
 }

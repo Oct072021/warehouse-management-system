@@ -144,6 +144,7 @@ export default {
       }
       return res
     },
+
     generateArr(routes) {
       let data = []
       routes.forEach(route => {

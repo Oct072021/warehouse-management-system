@@ -8,7 +8,7 @@ import Layout from '@/layout'
 
 /* Router Modules */
 import chartsRouter from './modules/charts'
-import tableRouter from './modules/table'
+import tableRouter from './modules/stock'
 import recordRouter from './modules/record'
 import financialRouter from './modules/financial'
 
@@ -104,7 +104,7 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://github.com/Oct072021/warehouse-management-system',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: { title: 'ExternalLink', icon: 'link' }
       }
     ]
   }
@@ -123,7 +123,7 @@ export const asyncRoutes = [
         path: 'log',
         component: () => import('@/views/error-log/index'),
         name: 'ErrorLog',
-        meta: { title: 'Error Log', icon: 'bug', roles: ['admin'] }
+        meta: { title: 'ErrorLog', icon: 'bug', roles: ['admin'] }
       }
     ]
   },
@@ -143,7 +143,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/directive'),
         name: 'DirectivePermission',
         meta: {
-          title: 'Directive Permission',
+          title: 'DirectivePermission',
           roles: ['admin', 'dataOperator', 'accountant']
         }
       },
@@ -152,7 +152,7 @@ export const asyncRoutes = [
         component: () => import('@/views/permission/role'),
         name: 'RolePermission',
         meta: {
-          title: 'Role Permission',
+          title: 'RolePermission',
           roles: ['admin']
         }
       }

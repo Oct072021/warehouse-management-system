@@ -15,13 +15,13 @@ const recordRouter = {
       path: 'inbound',
       component: () => import('@/views/record/inbound'),
       name: 'inbound',
-      meta: { title: 'inbound' }
+      meta: { title: 'Inbound' }
     },
     {
       path: 'outbound',
       component: () => import('@/views/record/outbound'),
       name: 'outbound',
-      meta: { title: 'outbound' }
+      meta: { title: 'Outbound' }
     }
   ]
 }

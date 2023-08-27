@@ -23,6 +23,7 @@
       >
         <transaction-table />
       </el-col>
+
       <el-col
         :xs="{ span: 24 }"
         :sm="{ span: 12 }"
@@ -33,6 +34,7 @@
       >
         <todo-list />
       </el-col>
+
       <el-col
         :xs="{ span: 24 }"
         :sm="{ span: 12 }"

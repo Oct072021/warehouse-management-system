@@ -9,7 +9,8 @@
       label-position="left"
     >
       <div class="title-container">
-        <h3 class="title">Warehouse Management System Login Form</h3>
+        <h3 class="title">{{ $t(`login.name`) }}</h3>
+        <h3 class="title" style="margin-bottom: 10px;">{{ $t(`login.loginForm`) }}</h3>
       </div>
 
       <el-form-item prop="username">
@@ -56,31 +57,31 @@
         type="primary"
         style="width:100%;margin-bottom:30px;"
         @click.native.prevent="handleLogin"
-      >Login</el-button>
+      >{{ $t(`login.login`) }}</el-button>
 
       <div style="position:relative">
         <div class="tips">
-          <span style="margin-right:63px;">Username : admin</span>
-          <span>Password : any</span>
+          <span style="margin-right:63px;">{{ $t(`login.username`) }} : admin</span>
+          <span>{{ $t(`login.password`) }} : {{ $t(`login.any`) }}</span>
         </div>
         <div class="tips">
-          <span style="margin-right:18px;">Username : dataOperator</span>
-          <span>Password : any</span>
+          <span style="margin-right:18px;">{{ $t(`login.username`) }} : dataOperator</span>
+          <span>{{ $t(`login.password`) }} : {{ $t(`login.any`) }}</span>
         </div>
         <div class="tips">
-          <span style="margin-right:32px;">Username : accountant</span>
-          <span>Password : any</span>
+          <span style="margin-right:32px;">{{ $t(`login.username`) }} : accountant</span>
+          <span>{{ $t(`login.password`) }} : {{ $t(`login.any`) }}</span>
         </div>
         <el-button
           class="thirdparty-button"
           type="primary"
           @click="showDialog = true"
-        >Or connect with</el-button>
+        >{{ $t(`login.thirdparty`) }}</el-button>
       </div>
     </el-form>
 
-    <el-dialog title="Or connect with" :visible.sync="showDialog">
-      Can not be simulated on local, so please combine you own business simulation! ! !
+    <el-dialog :title="$t(`login.thirdparty`)" :visible.sync="showDialog">
+      {{ $t(`login.thirdpartyTips`) }}
       <br>
       <br>
       <br>
@@ -319,9 +320,10 @@ $light_gray: #eee;
     .title {
       font-size: 26px;
       color: $light_gray;
-      margin: 0px auto 40px auto;
+      margin: 0 auto;
       text-align: center;
       font-weight: bold;
+      line-height: 60px;
     }
   }
 
