@@ -6,7 +6,7 @@
           <svg-icon icon-class="money" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Profit</div>
+          <div class="card-panel-text">{{ $t(`dashboard.profit`) }}</div>
           <count-to :start-val="0" :end-val="profit" :duration="3200" class="card-panel-num" />
         </div>
       </div>
@@ -17,7 +17,7 @@
           <svg-icon icon-class="shopping" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Orders</div>
+          <div class="card-panel-text">{{ $t(`dashboard.orders`) }}</div>
           <count-to :start-val="0" :end-val="orders" :duration="3600" class="card-panel-num" />
         </div>
       </div>

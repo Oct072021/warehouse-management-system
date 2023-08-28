@@ -34,9 +34,23 @@ export default {
     wechat: 'Wechat',
     qq: 'QQ'
   },
-  documentation: {
-    documentation: 'Documentation',
-    github: 'Github Repository'
+
+  // Dashboard page
+  dashboard: {
+    profit: 'Profit',
+    orders: 'Orders',
+    inbound: 'inbound',
+    outbound: 'outbound',
+    month: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    itemID: 'ItemID',
+    total: 'Total',
+    from: 'From',
+    todoList: 'Add to Todo List',
+    item: 'item',
+    left: 'left',
+    all: 'all',
+    active: 'active',
+    completed: 'completed'
   },
   permission: {
     addRole: 'New Role',

@@ -35,10 +35,24 @@ export default {
     qq: 'QQ登录'
   },
 
-  documentation: {
-    documentation: '文档',
-    github: 'Github 地址'
+  // Dashboard page
+  dashboard: {
+    profit: '收益',
+    orders: '订单量',
+    inbound: '入库',
+    outbound: '出库',
+    month: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
+    itemID: '商品ID',
+    total: '总价',
+    from: '仓库',
+    todoList: '添加备忘',
+    item: '项',
+    left: '未完成',
+    all: '全部',
+    active: '待做',
+    completed: '已完成'
   },
+
   permission: {
     addRole: '新增角色',
     editPermission: '编辑权限',

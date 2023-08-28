@@ -2,7 +2,12 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="Todo List" @keyup.enter="addTodo">
+      <input
+        class="new-todo"
+        autocomplete="off"
+        :placeholder="$t(`dashboard.todoList`)"
+        @keyup.enter="addTodo"
+      >
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
@@ -29,14 +34,14 @@
     <footer v-show="todos.length" class="footer">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
-        {{ remaining | pluralize('item') }} left
+        {{ remaining | pluralize($t(`dashboard.item`)) }} {{ $t(`dashboard.left`) }}
       </span>
       <ul class="filters">
         <li v-for="(val, key) in filters" :key="key">
           <a
             :class="{ selected: visibility === key }"
             @click.prevent="visibility = key"
-          >{{ key | capitalize }}</a>
+          >{{ $t(`dashboard.${key}`) | capitalize }}</a>
         </li>
       </ul>
       <!-- <button class="clear-completed" v-show="todos.length > remaining" @click="clearCompleted">
@@ -68,7 +73,7 @@ const defalutList = [
 export default {
   components: { Todo },
   filters: {
-    pluralize: (n, w) => (n === 1 ? w : w + 's'),
+    pluralize: (n, w) => (n > 1 && /^[a-zA-Z]+$/.test(w) ? w + 's' : w),
     capitalize: s => s.charAt(0).toUpperCase() + s.slice(1)
   },
   data() {

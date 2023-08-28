@@ -6,6 +6,8 @@
 import echarts from 'echarts'
 require('echarts/theme/macarons') // echarts theme
 import resize from './mixins/resize'
+import i18n from '@/lang'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [resize],
@@ -38,11 +40,19 @@ export default {
       monthArr: []
     }
   },
+  computed: {
+    ...mapGetters(['language'])
+  },
   watch: {
     chartData: {
       deep: true,
       handler(val) {
         this.setOptions(val)
+      }
+    },
+    language: {
+      handler(val) {
+        this.initChart()
       }
     }
   },
@@ -64,33 +74,18 @@ export default {
       this.getMonthArr()
       this.setOptions(this.chartData)
     },
+
     getMonthArr() {
       const nowMonth = this.nowDate.getMonth() + 1
-      switch (nowMonth) {
-        case 1 | 2 | 3:
-          this.monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun']
-          break
-        case 9 | 10 | 11 | 12:
-          this.monthArr = ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-          break
-        case 4:
-          this.monthArr = ['Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul']
-          break
-        case 5:
-          this.monthArr = ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
-          break
-        case 6:
-          this.monthArr = ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep']
-          break
-        case 7:
-          this.monthArr = ['May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
-          break
-        case 8:
-          this.monthArr = ['Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov']
-          break
-      }
+      const start =
+        nowMonth > 3 && nowMonth < 9 ? nowMonth : nowMonth <= 3 ? 3 : 9
+      this.monthArr = i18n.t(`dashboard.month`).slice(start - 3, start + 3)
     },
+
     setOptions({ inbound, outbound } = {}) {
+      const i18nInbound = i18n.t(`dashboard.inbound`)
+      const i18nOutbound = i18n.t(`dashboard.outbound`)
+
       this.chart.setOption({
         xAxis: {
           data: this.monthArr,
@@ -119,11 +114,11 @@ export default {
           }
         },
         legend: {
-          data: ['inbound', 'outbound']
+          data: [i18nInbound, i18nOutbound]
         },
         series: [
           {
-            name: 'inbound',
+            name: i18nInbound,
             itemStyle: {
               normal: {
                 color: '#FF005A',
@@ -140,7 +135,7 @@ export default {
             animationEasing: 'cubicInOut'
           },
           {
-            name: 'outbound',
+            name: i18nOutbound,
             smooth: true,
             type: 'line',
             itemStyle: {
