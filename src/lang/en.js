@@ -52,6 +52,7 @@ export default {
     active: 'active',
     completed: 'completed'
   },
+
   permission: {
     addRole: 'New Role',
     editPermission: 'Edit',
@@ -63,11 +64,18 @@ export default {
     confirm: 'Confirm',
     cancel: 'Cancel'
   },
-  guide: {
-    description:
-      'The guide page is useful for some people who entered the project for the first time. You can briefly introduce the features of the project. Demo is based on ',
-    button: 'Show Guide'
+
+  // errorLog page
+  errorLog: {
+    errorLog: 'Error Log',
+    clear: 'Clear All',
+    msg: 'Msg',
+    info: 'Info',
+    url: 'URL',
+    message: 'Message',
+    stack: 'Stack'
   },
+
   components: {
     documentation: 'Documentation',
     tinymceTips:
@@ -112,12 +120,6 @@ export default {
   example: {
     warning:
       'Creating and editing pages cannot be cached by keep-alive because keep-alive include does not currently support caching based on routes, so it is currently cached based on component name. If you want to achieve a similar caching effect, you can use a browser caching scheme such as localStorage. Or do not use keep-alive include to cache all pages directly. See details'
-  },
-  errorLog: {
-    tips: 'Please click the bug icon in the upper right corner',
-    description:
-      'Now the management system are basically the form of the spa, it enhances the user experience, but it also increases the possibility of page problems, a small negligence may lead to the entire page deadlock. Fortunately Vue provides a way to catch handling exceptions, where you can handle errors or report exceptions.',
-    documentation: 'Document introduction'
   },
   excel: {
     export: 'Export',
