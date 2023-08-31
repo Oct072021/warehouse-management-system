@@ -30,7 +30,7 @@
       </el-tab-pane>
     </el-tabs>
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible" top="10vh">
       <el-form
         ref="dataForm"
         :rules="rules"
@@ -39,7 +39,7 @@
         label-width="110px"
         style="width: 400px; margin-left:50px;"
       >
-        <el-form-item label="Repository" prop="type">
+        <el-form-item :label="$t(`records.warehouse`)" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
             <el-option
               v-for="item in calendarTypeOptions"
@@ -49,36 +49,39 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="ItemID" prop="itemID">
+        <el-form-item :label="$t(`records.itemID`)" prop="itemID">
           <el-input v-model="temp.itemID" />
         </el-form-item>
-        <el-form-item label="Title" prop="title">
+        <el-form-item :label="$t(`records.title`)" prop="title">
           <el-input v-model="temp.title" />
         </el-form-item>
-        <el-form-item label="Client" prop="client">
+        <el-form-item :label="$t(`records.client`)" prop="client">
           <el-input v-model="temp.client" />
         </el-form-item>
-        <el-form-item label="Specs" prop="specs">
+        <el-form-item :label="$t(`records.specs`)" prop="specs">
           <el-input v-model="temp.specs">
             <template slot="append">mm</template>
           </el-input>
         </el-form-item>
-        <el-form-item label="Quantity" prop="quantity">
+        <el-form-item :label="$t(`records.quantity`)" prop="quantity">
           <el-input v-model="temp.quantity" />
         </el-form-item>
-        <el-form-item label="Price" prop="price">
+        <el-form-item :label="$t(`records.price`)" prop="price">
           <el-input v-model="temp.price" />
         </el-form-item>
-        <el-form-item label="Mass" prop="mass">
+        <el-form-item :label="$t(`records.mass`)" prop="mass">
           <el-input v-model="temp.mass">
             <template slot="append">kg</template>
           </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="success" style="float: left">Scan</el-button>
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogStatus === 'create' ? create() : update()">Confirm</el-button>
+        <el-button type="success" style="float: left">{{ $t(`button.scan`) }}</el-button>
+        <el-button @click="dialogFormVisible = false">{{ $t(`button.delete`) }}</el-button>
+        <el-button
+          type="primary"
+          @click="dialogStatus === 'create' ? create() : update()"
+        >{{ $t(`button.confirm`) }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -91,6 +94,7 @@ import HeaderFilter from '@/components/HeaderFilter'
 import { parseTime } from '@/utils'
 import { throttle } from '@/utils/common'
 import { config } from './config'
+import i18n from '@/lang'
 
 const calendarTypeOptions = [
   { key: 'GZ', display_name: 'GuangZhou' },
@@ -283,7 +287,7 @@ export default {
               this.dialogFormVisible = false
               this.$notify({
                 title: 'Success',
-                message: 'Created Successfully',
+                message: i18n.t(`tips.createMsg_success`),
                 type: 'success',
                 duration: 2000
               })
@@ -313,7 +317,7 @@ export default {
               this.dialogFormVisible = false
               this.$notify({
                 title: 'Success',
-                message: 'Update Successfully',
+                message: i18n.t(`tips.updateMsg_success`),
                 type: 'success',
                 duration: 2000
               })

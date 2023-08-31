@@ -1,34 +1,42 @@
 <template>
   <div class="app-container">
-    <el-button type="primary" @click="handleAddRole">New Role</el-button>
+    <el-button type="primary" @click="handleAddRole">{{ $t(`permission.newRole`) }}</el-button>
 
     <el-table :data="rolesList" style="width: 100%;margin-top:30px;" border>
-      <el-table-column align="center" label="Role Key" width="220">
+      <el-table-column align="center" :label="$t(`permission.key`)" width="220">
         <template slot-scope="scope">{{ scope.row.key }}</template>
       </el-table-column>
-      <el-table-column align="center" label="Role Name" width="220">
+      <el-table-column align="center" :label="$t(`permission.name`)" width="220">
         <template slot-scope="scope">{{ scope.row.name }}</template>
       </el-table-column>
-      <el-table-column align="header-center" label="Description">
+      <el-table-column align="header-center" :label="$t(`permission.description`)">
         <template slot-scope="scope">{{ scope.row.description }}</template>
       </el-table-column>
-      <el-table-column align="center" label="Operations">
+      <el-table-column align="center" :label="$t(`permission.operations`)">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="handleEdit(scope)">Edit</el-button>
-          <el-button type="danger" size="small" @click="handleDelete(scope)">Delete</el-button>
+          <el-button
+            type="primary"
+            size="small"
+            @click="handleEdit(scope)"
+          >{{ $t(`button.edit`) }}</el-button>
+          <el-button
+            type="danger"
+            size="small"
+            @click="handleDelete(scope)"
+          >{{ $t(`button.delete`) }}</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <el-dialog
       :visible.sync="dialogVisible"
-      :title="dialogType === 'edit' ? 'Edit Role' : 'New Role'"
+      :title="dialogType === 'edit' ? $t(`permission.editRole`) : $t(`permission.newRole`)"
     >
       <el-form :model="role" label-width="80px" label-position="left">
-        <el-form-item label="Name">
+        <el-form-item :label="$t(`permission.name`)">
           <el-input v-model="role.name" placeholder="Role Name" />
         </el-form-item>
-        <el-form-item label="Desc">
+        <el-form-item :label="$t(`permission.desc`)">
           <el-input
             v-model="role.description"
             :autosize="{ minRows: 2, maxRows: 4 }"
@@ -36,7 +44,7 @@
             placeholder="Role Description"
           />
         </el-form-item>
-        <el-form-item label="Menus">
+        <el-form-item :label="$t(`permission.menus`)">
           <el-tree
             ref="tree"
             :check-strictly="checkStrictly"
@@ -49,8 +57,8 @@
         </el-form-item>
       </el-form>
       <div style="text-align:right;">
-        <el-button type="danger" @click="dialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="confirmRole">Confirm</el-button>
+        <el-button type="danger" @click="dialogVisible = false">{{ $t(`button.cancel`) }}</el-button>
+        <el-button type="primary" @click="confirmRole">{{ $t(`button.submit`) }}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -66,6 +74,7 @@ import {
   deleteRole,
   updateRole
 } from '@/api/role'
+import i18n from '@/lang'
 
 const defaultRole = {
   key: '',
@@ -183,17 +192,21 @@ export default {
     },
 
     handleDelete({ $index, row }) {
-      this.$confirm('Confirm to remove the role?', 'Warning', {
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        type: 'warning'
-      })
+      this.$confirm(
+        i18n.t(`tips.cancelTip`),
+        i18n.t(`tips.warning`),
+        {
+          confirmButtonText: i18n.t(`button.confirm`),
+          cancelButtonText: i18n.t(`button.cancel`),
+          type: 'warning'
+        }
+      )
         .then(async() => {
           await deleteRole(row.key)
           this.rolesList.splice($index, 1)
           this.$message({
             type: 'success',
-            message: 'Delete succed!'
+            message: i18n.t(`tips.deleteMsg_successd`)
           })
         })
         .catch(err => {
@@ -243,7 +256,7 @@ export default {
           this.$notify({
             title: 'Success',
             dangerouslyUseHTMLString: true,
-            message: `Edit Successfully`,
+            message: i18n.t(`tips.updateMsg_successd`),
             type: 'success'
           })
         }

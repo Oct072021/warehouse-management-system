@@ -6,6 +6,8 @@
 import echarts from 'echarts'
 import resize from './mixins/resize'
 import { outboundTotal } from '@/api/outbound'
+import i18n from '@/lang'
+import { mapGetters } from 'vuex'
 
 export default {
   mixins: [resize],
@@ -36,6 +38,16 @@ export default {
       SH_Total: []
     }
   },
+  computed: {
+    ...mapGetters(['language'])
+  },
+  watch: {
+    language: {
+      handler(val) {
+        this.initChart()
+      }
+    }
+  },
   mounted() {
     // Control the execution order of async tasks, ensuring that initData() is executed before initChart()
     this.initData().then(() => this.initChart())
@@ -53,10 +65,10 @@ export default {
       const xData = (function() {
         const data = []
         for (let i = 1; i < 13; i++) {
-          data.push(i + 'month')
+          data.push(i + ' ' + i18n.t(`charts.month`))
         }
         return data
-      }())
+      })()
       this.chart.setOption({
         backgroundColor: '#344b58',
         title: {
@@ -99,73 +111,78 @@ export default {
           data: ['GZ', 'SZ', 'BJ', 'SH']
         },
         calculable: true,
-        xAxis: [{
-          type: 'category',
-          axisLine: {
-            lineStyle: {
-              color: '#90979c'
-            }
-          },
-          splitLine: {
-            show: false
-          },
-          axisTick: {
-            show: false
-          },
-          splitArea: {
-            show: false
-          },
-          axisLabel: {
-            interval: 0
-
-          },
-          data: xData
-        }],
-        yAxis: [{
-          type: 'value',
-          splitLine: {
-            show: false
-          },
-          axisLine: {
-            lineStyle: {
-              color: '#90979c'
-            }
-          },
-          axisTick: {
-            show: false
-          },
-          axisLabel: {
-            interval: 0
-          },
-          splitArea: {
-            show: false
+        xAxis: [
+          {
+            type: 'category',
+            axisLine: {
+              lineStyle: {
+                color: '#90979c'
+              }
+            },
+            splitLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            splitArea: {
+              show: false
+            },
+            axisLabel: {
+              interval: 0
+            },
+            data: xData
           }
-        }],
-        dataZoom: [{
-          show: true,
-          height: 30,
-          xAxisIndex: [
-            0
-          ],
-          bottom: 30,
-          start: 10,
-          end: 80,
-          handleIcon: 'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
-          handleSize: '110%',
-          handleStyle: {
-            color: '#d3dee5'
+        ],
+        yAxis: [
+          {
+            type: 'value',
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              lineStyle: {
+                color: '#90979c'
+              }
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              interval: 0
+            },
+            splitArea: {
+              show: false
+            }
+          }
+        ],
+        dataZoom: [
+          {
+            show: true,
+            height: 30,
+            xAxisIndex: [0],
+            bottom: 30,
+            start: 10,
+            end: 80,
+            handleIcon:
+              'path://M306.1,413c0,2.2-1.8,4-4,4h-59.8c-2.2,0-4-1.8-4-4V200.8c0-2.2,1.8-4,4-4h59.8c2.2,0,4,1.8,4,4V413z',
+            handleSize: '110%',
+            handleStyle: {
+              color: '#d3dee5'
+            },
+            textStyle: {
+              color: '#fff'
+            },
+            borderColor: '#90979c'
           },
-          textStyle: {
-            color: '#fff'
-          },
-          borderColor: '#90979c'
-        }, {
-          type: 'inside',
-          show: true,
-          height: 15,
-          start: 1,
-          end: 35
-        }],
+          {
+            type: 'inside',
+            show: true,
+            height: 15,
+            start: 1,
+            end: 35
+          }
+        ],
         series: [
           {
             name: 'GZ',
@@ -189,7 +206,8 @@ export default {
               }
             },
             data: this.GZ_Orders
-          }, {
+          },
+          {
             name: 'SZ',
             type: 'bar',
             stack: 'total',
@@ -207,7 +225,8 @@ export default {
               }
             },
             data: this.SZ_Orders
-          }, {
+          },
+          {
             name: 'BJ',
             type: 'bar',
             stack: 'total',
@@ -225,7 +244,8 @@ export default {
               }
             },
             data: this.BJ_Orders
-          }, {
+          },
+          {
             name: 'SH',
             type: 'bar',
             stack: 'total',
@@ -243,7 +263,8 @@ export default {
               }
             },
             data: this.SH_Orders
-          }, {
+          },
+          {
             name: 'GZ',
             type: 'line',
             stack: 'total',
@@ -263,7 +284,8 @@ export default {
               }
             },
             data: this.GZ_Total
-          }, {
+          },
+          {
             name: 'SZ',
             type: 'line',
             stack: 'total',
@@ -283,7 +305,8 @@ export default {
               }
             },
             data: this.SZ_Total
-          }, {
+          },
+          {
             name: 'BJ',
             type: 'line',
             stack: 'total',
@@ -303,7 +326,8 @@ export default {
               }
             },
             data: this.BJ_Total
-          }, {
+          },
+          {
             name: 'SH',
             type: 'line',
             stack: 'total',

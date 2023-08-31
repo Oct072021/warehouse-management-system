@@ -18,45 +18,69 @@
             prop="id"
           />
 
-          <el-table-column width="180px" label="itemID" prop="itemID" />
+          <el-table-column width="180px" :label="$t(`records.itemID`)" prop="itemID" />
 
-          <el-table-column min-width="120px" label="Title">
+          <el-table-column min-width="100px" :label="$t(`records.title`)">
             <template slot-scope="{ row }">
               <span>{{ row.title }}</span>
               <el-tag>{{ row.type }}</el-tag>
             </template>
           </el-table-column>
 
-          <el-table-column width="120px" align="center" label="Date">
+          <el-table-column width="120px" align="center" :label="$t(`records.date`)">
             <template slot-scope="scope">
               <span>{{ scope.row.timestamp | parseTime("{y}-{m}-{d}") }}</span>
             </template>
           </el-table-column>
 
-          <el-table-column align="center" label="Specs" width="95" prop="specs" />
-
-          <el-table-column class-name="status-col" label="Quantity" prop="quantity" width="110" />
-
-          <el-table-column class-name="status-col" label="Price" prop="price" width="60" />
-
-          <el-table-column class-name="status-col" label="Total" prop="total" width="100" />
-
-          <el-table-column class-name="status-col" label="Mass" prop="mass" width="90" />
+          <el-table-column align="center" :label="$t(`records.specs`)" width="95" prop="specs" />
 
           <el-table-column
-            label="Actions"
+            class-name="status-col"
+            :label="$t(`records.quantity`)"
+            prop="quantity"
+            width="110"
+          />
+
+          <el-table-column
+            class-name="status-col"
+            :label="$t(`records.price`)"
+            prop="price"
+            width="80"
+          />
+
+          <el-table-column
+            class-name="status-col"
+            :label="$t(`records.total`)"
+            prop="total"
+            width="100"
+          />
+
+          <el-table-column
+            class-name="status-col"
+            :label="$t(`records.mass`)"
+            prop="mass"
+            width="90"
+          />
+
+          <el-table-column
+            :label="$t(`records.actions`)"
             align="center"
             width="170"
             class-name="small-padding fixed-width"
           >
             <template slot-scope="{ row, $index }">
-              <el-button type="primary" size="mini" @click="handleUpdate(row)">Edit</el-button>
+              <el-button
+                type="primary"
+                size="mini"
+                @click="handleUpdate(row)"
+              >{{ $t(`button.edit`) }}</el-button>
               <el-button
                 v-if="row.status != 'deleted'"
                 size="mini"
                 type="danger"
                 @click="handleRemove(row, $index)"
-              >Delete</el-button>
+              >{{ $t(`button.delete`) }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -68,6 +92,7 @@
 <script>
 import { fetchList, remove } from '@/api/inbound'
 import mPage from '@/components/mPage'
+import i18n from '@/lang'
 
 export default {
   components: { mPage },
@@ -133,7 +158,7 @@ export default {
         if (res.code === 20000) {
           this.$notify({
             title: 'Success',
-            message: 'Delete Successfully',
+            message: i18n.t(`tips.deleteMsg_success`),
             type: 'success',
             duration: 2000
           })

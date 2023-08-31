@@ -8,25 +8,25 @@
 
     <el-dialog :visible.sync="dialogErrVisible" width="40%" append-to-body>
       <div slot="title">
-        <span style="padding-right: 10px;">Error Report</span>
+        <span style="padding-right: 10px;">{{ $t(`errorLog.errorReport`) }}</span>
       </div>
       <el-form :model="errorLog" label-position="left" label-width="110px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="Message">
+        <el-form-item :label="$t(`errorLog.msg`)">
           <el-input v-model="errorLog.err.message" />
         </el-form-item>
-        <el-form-item label="Info">
+        <el-form-item :label="$t(`errorLog.info`)">
           <el-input v-model="errorLog.info" />
         </el-form-item>
-        <el-form-item label="Url">
+        <el-form-item :label="$t(`errorLog.url`)">
           <el-input v-model="errorLog.url" />
         </el-form-item>
-        <el-form-item label="Stack">
+        <el-form-item :label="$t(`errorLog.stack`)">
           <el-input v-model="errorLog.err.stack" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogErrVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="submitERR">Submit</el-button>
+        <el-button @click="dialogErrVisible = false">{{ $t(`button.cancel`) }}</el-button>
+        <el-button type="primary" @click="submitERR">{{ $t(`button.submit`) }}</el-button>
       </div>
     </el-dialog>
   </div>

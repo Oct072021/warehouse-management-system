@@ -5,7 +5,7 @@
         <el-input
           v-if="item.type==='input'"
           v-model="listQuery[item.name]"
-          :placeholder="item.name"
+          :placeholder="$t(`stock.${item.name}`)"
           :style="item.styles"
           class="filter-item"
           @keyup.enter.native="buttonClick(item.event)"
@@ -14,7 +14,7 @@
         <el-select
           v-if="item.type==='select'"
           v-model="listQuery[item.name]"
-          :placeholder="item.name"
+          :placeholder="$t(`headers.${item.name}`)"
           :style="item.styles"
           class="filter-item"
           @change="buttonClick(item.event)"
@@ -35,7 +35,7 @@
           :type="item.buttonType"
           :icon="item.icon"
           @click="buttonClick(item.event)"
-        >{{ item.name }}</el-button>
+        >{{ $t(`headers.${item.name}`) }}</el-button>
       </div>
     </div>
   </div>

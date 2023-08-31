@@ -53,16 +53,18 @@ export default {
     completed: '已完成'
   },
 
+  // permission page
   permission: {
-    addRole: '新增角色',
-    editPermission: '编辑权限',
+    newRole: '新增角色',
+    editRole: '编辑',
+    key: '关键字',
+    name: '名称',
+    description: '角色描述',
+    desc: '角色描述',
+    operations: '操作',
+    menus: '权限菜单',
     roles: '你的权限',
-    switchRoles: '切换权限',
-    tips:
-      '在某些情况下，不适合使用 v-permission。例如：Element-UI 的 el-tab 或 el-table-column 以及其它动态渲染 dom 的场景。你只能通过手动设置 v-if 来实现。',
-    delete: '删除',
-    confirm: '确定',
-    cancel: '取消'
+    switchRoles: '切换权限'
   },
 
   // errorLog page
@@ -73,85 +75,68 @@ export default {
     info: '信息',
     url: '接口地址',
     message: '报错详情',
-    stack: '堆栈'
+    stack: '堆栈',
+    errorReport: '错误上报'
   },
 
-  components: {
-    documentation: '文档',
-    tinymceTips:
-      '富文本是管理后台一个核心的功能，但同时又是一个有很多坑的地方。在选择富文本的过程中我也走了不少的弯路，市面上常见的富文本都基本用过了，最终权衡了一下选择了Tinymce。更详细的富文本比较和介绍见',
-    dropzoneTips:
-      '由于我司业务有特殊需求，而且要传七牛 所以没用第三方，选择了自己封装。代码非常的简单，具体代码你可以在这里看到 @/components/Dropzone',
-    stickyTips: '当页面滚动到预设的位置会吸附在顶部',
-    backToTopTips1: '页面滚动到指定位置会在右下角出现返回顶部按钮',
-    backToTopTips2:
-      '可自定义按钮的样式、show/hide、出现的高度、返回的位置 如需文字提示，可在外部使用Element的el-tooltip元素',
-    imageUploadTips:
-      '由于我在使用时它只有vue@1版本，而且和mockjs不兼容，所以自己改造了一下，如果大家要使用的话，优先还是使用官方版本。'
+  // charts page
+  charts: {
+    turnover: '营业额',
+    orders: '订单量',
+    month: '月'
   },
-  table: {
-    dynamicTips1: '固定表头, 按照表头顺序排序',
-    dynamicTips2: '不固定表头, 按照点击顺序排序',
-    dragTips1: '默认顺序',
-    dragTips2: '拖拽后顺序',
-    title: '标题',
-    importance: '重要性',
-    type: '类型',
-    remark: '点评',
-    search: '搜索',
-    add: '添加',
-    export: '导出',
-    reviewer: '审核人',
-    id: '序号',
-    date: '时间',
-    author: '作者',
-    readings: '阅读数',
-    status: '状态',
+
+  // stock page
+  stock: {
+    itemID: '商品ID',
+    title: '商品名称',
+    specs: '商品规格',
+    quantity: '数量',
+    mass: '商品质量',
     actions: '操作',
-    edit: '编辑',
-    publish: '发布',
-    draft: '草稿',
-    delete: '删除',
-    cancel: '取 消',
-    confirm: '确 定',
-    username: '用户名',
-    updatedAt: '更新时间',
-    roles: '权限'
+    warehouse: '仓库'
   },
 
-  example: {
-    warning:
-      '创建和编辑页面是不能被 keep-alive 缓存的，因为keep-alive 的 include 目前不支持根据路由来缓存，所以目前都是基于 component name 来进行缓存的。如果你想类似的实现缓存效果，可以使用 localStorage 等浏览器缓存方案。或者不要使用 keep-alive 的 include，直接缓存所有页面。详情见'
+  // records page
+  records: {
+    itemID: '商品ID',
+    title: '商品名称',
+    date: '日期',
+    specs: '商品规格',
+    quantity: '数量',
+    price: '价格',
+    total: '总价',
+    mass: '商品质量',
+    actions: '操作',
+    warehouse: '仓库',
+    client: '客户'
   },
-  excel: {
-    export: '导出',
-    selectedExport: '导出已选择项',
-    placeholder: '请输入文件名(默认excel-list)'
+
+  headers: {
+    Search: '搜索',
+    Export: '导出',
+    Add: '添加',
+    sort: '排序',
+    type: '仓库'
   },
-  zip: {
-    export: '导出',
-    placeholder: '请输入文件名(默认file)'
+
+  tips: {
+    warning: '提示',
+    cancelTip: '确定移除该角色？',
+    deleteMsg_success: '删除成功!',
+    updateMsg_success: '更新成功!',
+    createMsg_success: '创建成功!',
+    deleteMsg_fail: '删除失败!',
+    updateMsg_fail: '更新失败!',
+    createMsg_fail: '创建失败!'
   },
-  pdf: {
-    tips: '这里使用   window.print() 来实现下载pdf的功能'
-  },
-  theme: {
-    change: '换肤',
-    documentation: '换肤文档',
-    tips:
-      'Tips: 它区别于 navbar 上的 theme-pick, 是两种不同的换肤方法，各自有不同的应用场景，具体请参考文档。'
-  },
-  tagsView: {
-    refresh: '刷新',
-    close: '关闭',
-    closeOthers: '关闭其它',
-    closeAll: '关闭所有'
-  },
-  settings: {
-    title: '系统布局配置',
-    theme: '主题色',
-    tagsView: '开启 Tags-View',
-    fixedHeader: '固定 Header',
-    sidebarLogo: '侧边栏 Logo'
+
+  button: {
+    edit: '编辑',
+    delete: '删除',
+    submit: '确定',
+    cancel: '取消',
+    confirm: '确定',
+    scan: '扫描'
   }
 }

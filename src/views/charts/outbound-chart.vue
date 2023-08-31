@@ -5,8 +5,8 @@
       class="switch"
       active-color="#13ce66"
       inactive-color="#1890FF"
-      active-text="turnover"
-      inactive-text="order quantity"
+      :active-text="$t(`charts.turnover`)"
+      :inactive-text="$t(`charts.orders`)"
     />
     <keep-alive>
       <tradeChart v-if="value" height="100%" width="100%" />
