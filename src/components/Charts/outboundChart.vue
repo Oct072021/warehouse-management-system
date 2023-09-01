@@ -5,7 +5,7 @@
 <script>
 import echarts from 'echarts'
 import resize from './mixins/resize'
-import { inboundTotal } from '@/api/inbound'
+import { outboundTotal } from '@/api/outbound'
 import i18n from '@/lang'
 import { mapGetters } from 'vuex'
 
@@ -27,23 +27,49 @@ export default {
     height: {
       type: String,
       default: '200px'
+    },
+    type: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       chart: null,
-      GZ_Total: [],
-      SZ_Total: [],
-      BJ_Total: [],
-      SH_Total: []
+      // type_exp: this.type ? 'line' : 'bar',
+      // data_exp:this.type?
+      // index: this.type ? 0 : 1,
+      chartType: ['line', 'bar'],
+      // index 0 is profit, index 1 is orders
+      GZ: [],
+      SZ: [],
+      BJ: [],
+      SH: []
+      // GZ_Total: null,
+      // SZ_Total: null,
+      // BJ_Total: null,
+      // SH_Total: null,
+      // GZ_Orders: null,
+      // SZ_Orders: null,
+      // BJ_Orders: null,
+      // SH_Orders: null
     }
   },
   computed: {
-    ...mapGetters(['language'])
+    ...mapGetters(['language']),
+    index() {
+      return this.type ? 0 : 1
+    }
   },
   watch: {
     language: {
       handler(val) {
+        this.initChart()
+      }
+    },
+    index: {
+      handler(val) {
+        console.log(val)
         this.initChart()
       }
     }
@@ -186,10 +212,12 @@ export default {
         series: [
           {
             name: 'GZ',
-            type: 'line',
+            type: this.chartType[this.index],
             stack: 'total',
             symbolSize: 10,
             symbol: 'circle',
+            barMaxWidth: 45,
+            barGap: '10%',
             itemStyle: {
               normal: {
                 color: 'rgba(52,158,255)',
@@ -203,11 +231,11 @@ export default {
                 }
               }
             },
-            data: this.GZ_Total
+            data: this.GZ[this.index]
           },
           {
             name: 'SZ',
-            type: 'line',
+            type: this.chartType[this.index],
             stack: 'total',
             symbolSize: 10,
             symbol: 'circle',
@@ -224,11 +252,11 @@ export default {
                 }
               }
             },
-            data: this.SZ_Total
+            data: this.SZ[this.index]
           },
           {
             name: 'BJ',
-            type: 'line',
+            type: this.chartType[this.index],
             stack: 'total',
             symbolSize: 10,
             symbol: 'circle',
@@ -245,11 +273,11 @@ export default {
                 }
               }
             },
-            data: this.BJ_Total
+            data: this.BJ[this.index]
           },
           {
             name: 'SH',
-            type: 'line',
+            type: this.chartType[this.index],
             stack: 'total',
             symbolSize: 10,
             symbol: 'circle',
@@ -266,23 +294,27 @@ export default {
                 }
               }
             },
-            data: this.SH_Total
+            data: this.SH[this.index]
           }
         ]
       })
     },
     async initData() {
       const GZ_res = await this.getTotal('GZ')
-      this.GZ_Total = GZ_res.total
+      this.GZ[0] = GZ_res.total
+      this.GZ[1] = GZ_res.orders
       const SZ_res = await this.getTotal('SZ')
-      this.SZ_Total = SZ_res.total
+      this.SZ[0] = SZ_res.total
+      this.SZ[1] = SZ_res.orders
       const BJ_res = await this.getTotal('BJ')
-      this.BJ_Total = BJ_res.total
+      this.BJ[0] = BJ_res.total
+      this.BJ[1] = BJ_res.orders
       const SH_res = await this.getTotal('SH')
-      this.SH_Total = SH_res.total
+      this.SH[0] = SH_res.total
+      this.SH[1] = SH_res.orders
     },
     async getTotal(type) {
-      const res = await inboundTotal(type)
+      const res = await outboundTotal(type)
       return res.data
     }
   }

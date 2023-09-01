@@ -8,27 +8,16 @@
       :active-text="$t(`charts.turnover`)"
       :inactive-text="$t(`charts.orders`)"
     />
-    <!-- <keep-alive> -->
-    <transition name="switch">
-      <tradeChart v-if="value" height="100%" width="100%" />
-    </transition>
-    <transition name="switch">
-      <orderChart v-if="!value" height="100%" width="100%" />
-    </transition>
-
-    <!-- <tradeChart v-if="value" height="100%" width="100%" />
-    <orderChart v-if="!value" height="100%" width="100%" />-->
-    <!-- </keep-alive> -->
+    <Chart height="100%" width="100%" :type="value" />
   </div>
 </template>
 
 <script>
-import tradeChart from '@/components/Charts/inboundChart-trade'
-import orderChart from '@/components/Charts/inboundChart-order'
+import Chart from '@/components/Charts/inboundChart'
 
 export default {
   name: 'InboundChart',
-  components: { tradeChart, orderChart },
+  components: { Chart },
   data() {
     return {
       value: true

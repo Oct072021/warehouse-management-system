@@ -27,23 +27,49 @@ export default {
     height: {
       type: String,
       default: '200px'
+    },
+    type: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
     return {
       chart: null,
-      GZ_Orders: null,
-      SZ_Orders: null,
-      BJ_Orders: null,
-      SH_Orders: null
+      // type_exp: this.type ? 'line' : 'bar',
+      // data_exp:this.type?
+      // index: this.type ? 0 : 1,
+      chartType: ['line', 'bar'],
+      // index 0 is profit, index 1 is orders
+      GZ: [],
+      SZ: [],
+      BJ: [],
+      SH: []
+      // GZ_Total: null,
+      // SZ_Total: null,
+      // BJ_Total: null,
+      // SH_Total: null,
+      // GZ_Orders: null,
+      // SZ_Orders: null,
+      // BJ_Orders: null,
+      // SH_Orders: null
     }
   },
   computed: {
-    ...mapGetters(['language'])
+    ...mapGetters(['language']),
+    index() {
+      return this.type ? 0 : 1
+    }
   },
   watch: {
     language: {
       handler(val) {
+        this.initChart()
+      }
+    },
+    index: {
+      handler(val) {
+        console.log(val)
         this.initChart()
       }
     }
@@ -186,31 +212,33 @@ export default {
         series: [
           {
             name: 'GZ',
-            type: 'bar',
+            type: this.chartType[this.index],
             stack: 'total',
-            barMaxWidth: 35,
+            symbolSize: 10,
+            symbol: 'circle',
+            barMaxWidth: 45,
             barGap: '10%',
             itemStyle: {
               normal: {
                 color: 'rgba(52,158,255)',
+                barBorderRadius: 0,
                 label: {
                   show: true,
-                  textStyle: {
-                    color: '#fff'
-                  },
-                  position: 'insideTop',
+                  position: 'top',
                   formatter(p) {
                     return p.value > 0 ? p.value : ''
                   }
                 }
               }
             },
-            data: this.GZ_Orders
+            data: this.GZ[this.index]
           },
           {
             name: 'SZ',
-            type: 'bar',
+            type: this.chartType[this.index],
             stack: 'total',
+            symbolSize: 10,
+            symbol: 'circle',
             itemStyle: {
               normal: {
                 color: 'rgba(252,230,48,1)',
@@ -224,12 +252,14 @@ export default {
                 }
               }
             },
-            data: this.SZ_Orders
+            data: this.SZ[this.index]
           },
           {
             name: 'BJ',
-            type: 'bar',
+            type: this.chartType[this.index],
             stack: 'total',
+            symbolSize: 10,
+            symbol: 'circle',
             itemStyle: {
               normal: {
                 color: 'rgba(20,251,46)',
@@ -243,12 +273,14 @@ export default {
                 }
               }
             },
-            data: this.BJ_Orders
+            data: this.BJ[this.index]
           },
           {
             name: 'SH',
-            type: 'bar',
+            type: this.chartType[this.index],
             stack: 'total',
+            symbolSize: 10,
+            symbol: 'circle',
             itemStyle: {
               normal: {
                 color: 'rgba(226,4,4)',
@@ -262,20 +294,24 @@ export default {
                 }
               }
             },
-            data: this.SH_Orders
+            data: this.SH[this.index]
           }
         ]
       })
     },
     async initData() {
       const GZ_res = await this.getTotal('GZ')
-      this.GZ_Orders = GZ_res.orders
+      this.GZ[0] = GZ_res.total
+      this.GZ[1] = GZ_res.orders
       const SZ_res = await this.getTotal('SZ')
-      this.SZ_Orders = SZ_res.orders
+      this.SZ[0] = SZ_res.total
+      this.SZ[1] = SZ_res.orders
       const BJ_res = await this.getTotal('BJ')
-      this.BJ_Orders = BJ_res.orders
+      this.BJ[0] = BJ_res.total
+      this.BJ[1] = BJ_res.orders
       const SH_res = await this.getTotal('SH')
-      this.SH_Orders = SH_res.orders
+      this.SH[0] = SH_res.total
+      this.SH[1] = SH_res.orders
     },
     async getTotal(type) {
       const res = await inboundTotal(type)
