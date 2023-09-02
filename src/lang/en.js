@@ -112,6 +112,14 @@ export default {
     client: 'Client'
   },
 
+  settings: {
+    title: 'Page style settings',
+    color: 'Theme Color',
+    tagsView: 'Open Tags-View',
+    fix: 'Fixed Header',
+    logo: 'Sidebar Logo'
+  },
+
   headers: {
     Search: 'Search',
     Export: 'Export',

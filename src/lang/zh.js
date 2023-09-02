@@ -112,6 +112,14 @@ export default {
     client: '客户'
   },
 
+  settings: {
+    title: '页面样式设置',
+    color: '主题颜色',
+    tagsView: '打开标签视图',
+    fix: '固定头部',
+    logo: '侧边栏图标'
+  },
+
   headers: {
     Search: '搜索',
     Export: '导出',
