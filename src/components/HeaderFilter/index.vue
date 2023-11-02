@@ -43,7 +43,7 @@
 
 <script>
 import waves from '@/directive/waves' // waves directive
-import { debounce } from '@/utils/common'
+import { debounce } from '@/utils/index'
 
 export default {
   name: 'HeaderFilter',
@@ -65,7 +65,7 @@ export default {
     listQuery: {
       handler: debounce(function(val) {
         this.$emit('buttonClick', val)
-      }, 2 * 1000),
+      }, 2 * 1000, false),
       deep: true
     }
   },

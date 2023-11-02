@@ -5,7 +5,6 @@ import Layout from '@/layout'
 const tableRouter = {
   path: '/stock',
   component: Layout,
-  name: 'Stock',
   meta: {
     title: 'Stock',
     icon: 'table',

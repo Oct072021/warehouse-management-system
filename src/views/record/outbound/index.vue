@@ -189,7 +189,6 @@ export default {
   methods: {
     buttonClick(data, e) {
       this.list = { ...this.list, ...data }
-      console.log(this.list)
       if (e === 'search') {
         this.handleFilter()
       } else if (e === 'add') {

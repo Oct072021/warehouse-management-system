@@ -132,7 +132,6 @@ export default {
   methods: {
     buttonClick(data, e) {
       this.list = { ...this.list, ...data }
-      console.log(this.list)
       if (e === 'search') {
         this.handleFilter()
       } else if (e === 'export') {
@@ -211,7 +210,6 @@ export default {
           this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
           this.temp.author = 'vue-element-admin'
           this.temp.timestamp = +new Date(this.temp.timestamp)
-          console.log(this.temp)
           createArticle(this.temp).then(res => {
             if (res.code === 20000) {
               this.dialogFormVisible = false

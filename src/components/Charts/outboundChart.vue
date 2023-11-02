@@ -69,7 +69,6 @@ export default {
     },
     index: {
       handler(val) {
-        console.log(val)
         this.initChart()
       }
     }

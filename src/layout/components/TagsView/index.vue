@@ -194,6 +194,7 @@ export default {
       this.top = e.clientY
       this.visible = true
       this.selectedTag = tag
+      console.log(this.selectedTag)
     },
     closeMenu() {
       this.visible = false

@@ -48,15 +48,7 @@ export default {
       }
     }
   },
-  computed: {
-    errorLogs() {
-      return this.$store.getters.errorLogs
-    }
-  },
   methods: {
-    clearAll() {
-      this.$store.dispatch('errorLog/clearErrorLog')
-    },
     submitERR() {
       // Vuex dispatches errorLog method
       this.$store.dispatch('errorLog/addErrorLog', this.errorLog)

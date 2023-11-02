@@ -34,7 +34,7 @@
           <el-table-column :label="$t(`stock.title`)" min-width="200px">
             <template slot-scope="{row}">
               <span class="link-type" @click="handleUpdate(row)">{{ row.title }}</span>
-              <el-tag>{{ row.type | typeFilter }}</el-tag>
+              <el-tag>{{ row.type }}</el-tag>
             </template>
           </el-table-column>
 
@@ -73,7 +73,7 @@
       </template>
     </m-Page>
 
-    <el-dialog :title="$t(`stock.edit`)" :visible.sync="dialogFormVisible">
+    <el-dialog :title="$t(`button.edit`)" :visible.sync="dialogFormVisible">
       <el-form
         ref="dataForm"
         :rules="rules"

@@ -49,7 +49,6 @@ export default {
         return () => {
           const originalCluster = this.getThemeCluster(ORIGINAL_THEME.replace('#', ''))
           const newStyle = this.updateStyle(this[variable], originalCluster, themeCluster)
-
           let styleTag = document.getElementById(id)
           if (!styleTag) {
             styleTag = document.createElement('style')
