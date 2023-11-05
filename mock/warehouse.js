@@ -18,8 +18,6 @@ for (let i = 0; i < 1000; i++) {
   }))
 }
 
-console.log(typeof outboundArr[0].timestamp);
-
 for (let i = 0; i < 1000; i++) {
   const { quantity, price } = outboundArr[i]
   outboundArr[i].total = (quantity * price).toFixed(2)

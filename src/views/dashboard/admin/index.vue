@@ -8,7 +8,7 @@
       @handleSetLineChartData="handleSetLineChartData"
     />
 
-    <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
+    <el-row style="background: #fff; padding: 16px 16px 0; margin-bottom: 32px">
       <line-chart :chart-data="lineChartData" />
     </el-row>
 
@@ -19,7 +19,7 @@
         :md="{ span: 24 }"
         :lg="{ span: 12 }"
         :xl="{ span: 12 }"
-        style="padding-right:8px;margin-bottom:30px;"
+        style="padding-right: 8px; margin-bottom: 30px"
       >
         <transaction-table />
       </el-col>
@@ -30,7 +30,7 @@
         :md="{ span: 12 }"
         :lg="{ span: 6 }"
         :xl="{ span: 6 }"
-        style="margin-bottom:30px;"
+        style="margin-bottom: 30px"
       >
         <todo-list />
       </el-col>
@@ -41,7 +41,7 @@
         :md="{ span: 12 }"
         :lg="{ span: 6 }"
         :xl="{ span: 6 }"
-        style="margin-bottom:30px;"
+        style="margin-bottom: 30px"
       >
         <box-card />
       </el-col>
@@ -103,16 +103,10 @@ export default {
       this.orders += eval(orders.join('+'))
       // Get Chart Data
       const nowMonth = this.nowDate.getMonth() + 1
-      if (nowMonth <= 3) {
-        lineChartData.profit.inbound = total.slice(0, 6)
-        lineChartData.orders.inbound = orders.slice(0, 6)
-      } else if (nowMonth >= 9) {
-        lineChartData.profit.inbound = total.slice(7, 13)
-        lineChartData.orders.inbound = orders.slice(7, 13)
-      } else {
-        lineChartData.profit.inbound = total.slice(nowMonth - 3, nowMonth + 3)
-        lineChartData.orders.inbound = orders.slice(nowMonth - 3, nowMonth + 3)
-      }
+      const base =
+        nowMonth > 3 && nowMonth < 9 ? nowMonth : nowMonth <= 3 ? 3 : 9
+      lineChartData.profit.inbound = total.slice(base - 3, base + 3)
+      lineChartData.orders.inbound = orders.slice(base - 3, base + 3)
     },
     async getOutboundData() {
       const res = await outboundTotal()
@@ -122,16 +116,10 @@ export default {
       this.orders = eval(orders.join('+'))
       // Get Chart Data
       const nowMonth = this.nowDate.getMonth() + 1
-      if (nowMonth <= 3) {
-        lineChartData.profit.outbound = total.slice(0, 6)
-        lineChartData.orders.outbound = orders.slice(0, 6)
-      } else if (nowMonth >= 9) {
-        lineChartData.profit.outbound = total.slice(7, 13)
-        lineChartData.orders.outbound = orders.slice(7, 13)
-      } else {
-        lineChartData.profit.outbound = total.slice(nowMonth - 3, nowMonth + 3)
-        lineChartData.orders.outbound = orders.slice(nowMonth - 3, nowMonth + 3)
-      }
+      const base =
+        nowMonth > 3 && nowMonth < 9 ? nowMonth : nowMonth <= 3 ? 3 : 9
+      lineChartData.profit.outbound = total.slice(base - 3, base + 3)
+      lineChartData.orders.outbound = orders.slice(base - 3, base + 3)
     },
     getData() {
       // Control the execution order of async tasks

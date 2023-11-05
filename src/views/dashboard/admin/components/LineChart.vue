@@ -77,9 +77,9 @@ export default {
 
     getMonthArr() {
       const nowMonth = this.nowDate.getMonth() + 1
-      const start =
+      const base =
         nowMonth > 3 && nowMonth < 9 ? nowMonth : nowMonth <= 3 ? 3 : 9
-      this.monthArr = i18n.t(`dashboard.month`).slice(start - 3, start + 3)
+      this.monthArr = i18n.t(`dashboard.month`).slice(base - 3, base + 3)
     },
 
     setOptions({ inbound, outbound } = {}) {
