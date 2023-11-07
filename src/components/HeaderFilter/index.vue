@@ -65,7 +65,7 @@ export default {
     listQuery: {
       handler: debounce(function(val) {
         this.$emit('buttonClick', val)
-      }, 2 * 1000, false),
+      }, 0.5 * 1000, false),
       deep: true
     }
   },
